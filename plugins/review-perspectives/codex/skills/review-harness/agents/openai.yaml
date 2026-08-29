@@ -1,0 +1,7 @@
+interface:
+  display_name: "Review Harness"
+  short_description: "Review a harness change for necessity, scope, and safety"
+  default_prompt: "Use $review-harness to review this harness change."
+
+policy:
+  allow_implicit_invocation: true

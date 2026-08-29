@@ -1,0 +1,20 @@
+{
+  "name": "atsushi-plugins",
+  "owner": {
+    "name": "Mori Atsushi",
+    "email": "at.sushi.tb@gmail.com"
+  },
+  "description": "Personal plugins for Codex and Claude Code.",
+  "plugins": [
+    {
+      "name": "review-perspectives",
+      "source": "./plugins/review-perspectives",
+      "description": "Reusable code, plan, and harness review workflows.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Mori Atsushi",
+        "email": "at.sushi.tb@gmail.com"
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "review-perspectives",
+  "version": "1.0.0",
+  "description": "Reusable code, plan, and harness review workflows for Codex and Claude Code.",
+  "author": {
+    "name": "Mori Atsushi",
+    "email": "at.sushi.tb@gmail.com"
+  },
+  "skills": "./codex/skills/",
+  "interface": {
+    "displayName": "Review Perspectives",
+    "shortDescription": "Review code, plans, and harness changes.",
+    "longDescription": "Runs focused, multi-perspective reviews for code, implementation plans, and agent harness material. Projects can add their own review perspectives without copying the workflow.",
+    "developerName": "Mori Atsushi",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Review my current code changes",
+      "Review this implementation plan",
+      "Review my harness changes"
+    ]
+  }
+}

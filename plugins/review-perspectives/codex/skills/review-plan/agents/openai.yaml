@@ -1,0 +1,7 @@
+interface:
+  display_name: "Review Plan"
+  short_description: "Review an implementation plan before coding"
+  default_prompt: "Use $review-plan to review this implementation plan before coding."
+
+policy:
+  allow_implicit_invocation: true
