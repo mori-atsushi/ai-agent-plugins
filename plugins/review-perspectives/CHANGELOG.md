@@ -2,6 +2,13 @@
 
 All notable changes to `review-perspectives` are documented in this file.
 
+## [1.0.1] - 2026-08-30
+
+### Added
+
+- Kotlin/Compose design checks for dependency placement and composable
+  positioning/sizing.
+
 ## [1.0.0] - 2026-08-29
 
 ### Added

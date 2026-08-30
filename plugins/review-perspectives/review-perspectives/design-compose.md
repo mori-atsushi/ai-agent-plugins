@@ -22,3 +22,15 @@ Project rules win. This checklist covers what they do not say.
   `Flow`.
 - **A shared design-system component uses an unprefixed generic name.** The package
   already supplies app and brand scope: prefer `DropdownMenu` to `AcmeDropdownMenu`.
+- **A composable is positioned by its caller, never by itself.** Positioning
+  modifiers (`align`, `offset`, and the like) are built at the call site and
+  passed in through `modifier: Modifier = Modifier`. When an offset depends on
+  data only the composable's layer understands, expose that computation as a
+  plain function the caller invokes — don't apply it internally. This also
+  rules out declaring a composable as a `BoxScope`/`ColumnScope`/`RowScope`
+  extension just to reach a scope-only modifier (`align`, `weight`) — the
+  caller already holds that receiver and can build the modifier itself.
+- **A composable's own size (`width`/`height`) stays internal only when it is fixed
+  and call-site-independent** (e.g. a fixed icon size). Once a size depends on
+  where the composable is used — layout data specific to that call site — the
+  caller computes and supplies it too, the same way it supplies position.

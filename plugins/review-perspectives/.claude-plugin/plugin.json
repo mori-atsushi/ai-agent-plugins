@@ -1,7 +1,7 @@
 {
   "name": "review-perspectives",
   "description": "Reusable code, plan, and harness review workflows for Claude Code.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Mori Atsushi",
     "email": "at.sushi.tb@gmail.com"

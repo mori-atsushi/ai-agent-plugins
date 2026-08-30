@@ -21,3 +21,10 @@ Project rules win. This checklist covers what they do not say.
 - **Sealed subtype nesting makes the hierarchy easy to read.** Nest small local
   subtypes; keep a large subtype top-level when nesting obscures it; use a consistent
   arrangement unless size gives a clear reason to differ.
+
+## Dependencies
+
+- **A dependency is a constructor parameter or an extension receiver, not a function
+  argument.** This makes the dependency flow visible at construction or the call site.
+  A default argument that only tests override to substitute the dependency is an
+  exception, not a violation.
