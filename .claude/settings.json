@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "atsushi-plugins": {
+      "source": {
+        "source": "directory",
+        "path": "."
+      }
+    }
+  },
+  "enabledPlugins": {
+    "review-perspectives@atsushi-plugins": true
+  }
+}

@@ -6,6 +6,13 @@ Personal marketplace for plugins that work with both Codex and Claude Code.
 
 - `review-perspectives` — review code, implementation plans, and agent harness changes
 
+## Use inside this repository
+
+`.claude/settings.json` declares this repo's own marketplace and enables
+`review-perspectives` at the project scope, so Claude Code offers to trust and
+load it the first time you open this checkout — no install command needed.
+Approve the trust prompt, then start a new session.
+
 ## Install from GitHub
 
 Codex:
