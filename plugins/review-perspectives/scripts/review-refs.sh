@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
-# Prints the reference files a reviewer for <perspective> must read, one path per
-# line: the perspective's own checklists plus the reviewing project's additional
-# rules. Run by the reviewer itself — no skill selects or forwards them.
+# Prints the reference files a reviewer for <perspective> may need: the perspective's
+# own checklists plus the reviewing project's additional rules. Run by the reviewer
+# itself — no skill selects or forwards them. Each match prints as
+# "<path>\t<description>" (description empty when the file has none) so the reviewer
+# can judge relevance before opening a file it turns out not to need.
 #
 # A file opts in through its own YAML frontmatter — there is no registry to keep in
 # sync:
 #   perspectives: [<name>, ...]   which reviewers it belongs to (required to be found)
 #   paths: [<glob>, ...]          which changed files make it relevant; absent = always
+#   description: <text>           one-line summary printed alongside the path
 #
 # Only review files are searched. `docs/rules/` is deliberately out: a rule tells an
 # author what to write, a perspective tells a reviewer what to flag, and the two want
@@ -45,6 +48,7 @@ collect() {
   case "$key" in
     perspectives) perspectives+=("$1") ;;
     paths) globs+=("$1") ;;
+    description) desc="$1" ;;
   esac
 }
 
@@ -69,6 +73,7 @@ for root in "${ROOTS[@]}"; do
 
     perspectives=()
     globs=()
+    desc=""
     key=""
     while IFS= read -r line; do
       [ "$line" = "---" ] && break
@@ -82,6 +87,9 @@ for root in "${ROOTS[@]}"; do
           for value in ${items[@]+"${items[@]}"}; do
             collect "$(trim_value "$value")"
           done
+        elif [ -n "$rest" ]; then
+          # Single-line scalar, e.g. `description: some text`.
+          collect "$(trim_value "$rest")"
         fi
       elif [[ $line =~ ^[[:space:]]+-[[:space:]]+(.*)$ ]]; then
         collect "$(trim_value "${BASH_REMATCH[1]}")"
@@ -96,7 +104,7 @@ for root in "${ROOTS[@]}"; do
 
     # No globs, or no changed-file list (a plan review has none): always relevant.
     if [ ${#globs[@]} -eq 0 ] || [ ${#CHANGED[@]} -eq 0 ]; then
-      echo "$file"
+      printf '%s\t%s\n' "$file" "$desc"
       continue
     fi
 
@@ -105,7 +113,7 @@ for root in "${ROOTS[@]}"; do
       for changed in "${CHANGED[@]}"; do
         # shellcheck disable=SC2053
         if [[ $changed == $pattern ]]; then
-          echo "$file"
+          printf '%s\t%s\n' "$file" "$desc"
           break 2
         fi
       done

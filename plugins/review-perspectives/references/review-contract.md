@@ -17,14 +17,20 @@ file selection, or implementation plan:
    `bash "$REVIEW_PERSPECTIVES_ROOT/scripts/review-refs.sh" "$REVIEW_PERSPECTIVES_ROOT" <perspective> <changed-files list>`,
    where `<perspective>` is the perspective filename's basename without `.md` and the
    changed-files list is the path the prompt names — omit that argument when it names
-   none, as on a plan review. Read **all** of what it prints: this plugin's general
-   checklists appear first, followed by the reviewing project's optional
-   `.agents/review-perspectives/` overlays. Their order settles nothing but
-   disagreements — **where two contradict, the later one wins**. It printing nothing is
-   normal; the rubric then stands on its own. If you cannot run it — no Bash tool, or the
-   command fails — read the named plugin perspective and glob the project’s
+   none, as on a plan review. Each line printed is `<path>\t<description>`: this
+   plugin's general checklists appear first, followed by the reviewing project's
+   optional `.agents/review-perspectives/` overlays. Use the description to judge
+   relevance before opening a file — skip one only when the description makes it
+   clearly inapplicable to the material (e.g. a Compose-specific checklist and the
+   diff touches no `@Composable`); read every other file the command lists. A
+   perspective's own instruction to read all collected reference files (step 4)
+   overrides this skip allowance. Their order settles nothing but disagreements —
+   **where two contradict, the later one wins**. It printing nothing is normal; the
+   rubric then stands on its own. If you cannot run it — no Bash tool, or the command
+   fails — read the named plugin perspective and glob the project's
    `.agents/review-perspectives/*.md`, applying their `perspectives` / `paths`
-   frontmatter yourself, and say in your report that you did. Never skip the step.
+   frontmatter yourself, and say in your report that
+   you did. Never skip the step.
 3. Read the material.
    - A diff file already carries 30 lines of context around each change: use it as
      the primary source and do not re-read files whose changes are already clear
