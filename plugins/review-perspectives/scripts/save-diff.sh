@@ -8,10 +8,11 @@ set -euo pipefail
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
 
-# Output stays in the reviewed repository's ignored tmp/ directory unless
+# Output stays in the OS temp directory (not the reviewed repo) so these files
+# never show up as untracked in the reviewed repo's git status, unless
 # REVIEW_DIFF_DIR overrides it, keyed by repo path so concurrent worktrees do not
 # overwrite each other's diff.
-OUT_DIR="${REVIEW_DIFF_DIR:-$ROOT/tmp}"
+OUT_DIR="${REVIEW_DIFF_DIR:-${TMPDIR:-/tmp}/review-perspectives}"
 mkdir -p "$OUT_DIR"
 KEY=$(cksum <<<"$ROOT" | cut -d' ' -f1)
 DIFF_FILE="${OUT_DIR%/}/review-diff-$KEY.diff"
