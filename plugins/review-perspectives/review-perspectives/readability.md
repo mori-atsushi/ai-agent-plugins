@@ -1,7 +1,7 @@
 # Perspective: Readability
 
-Review local code clarity. Check the applicable general, Kotlin, and Jetpack Compose
-conventions.
+Review local code clarity. Check the applicable general, comment, Kotlin, and
+Jetpack Compose conventions.
 
 This perspective owns clarity and consistency within a function, class, or file.
 `design` owns cross-code questions. That includes responsibility, model shape, API
@@ -30,19 +30,6 @@ mention still stands.
 - **A non-transfer type names its concept without filler.** Avoid `Manager`,
   `Handler`, `Helper`, `Util`, or `Data` when the remaining name is the concept.
 - **A function name describes the operation or result, not only its input.**
-
-### Comments
-
-- **A comment explains information the code cannot express.** Remove restatements
-  such as `// increment counter` above `counter++`.
-- **Workarounds, non-obvious side-effect return values, argument constraints, and
-  `null` meanings have the comment they need.**
-- **A comment documents its type or behavior, not a caller list.** Naming a related
-  type is fine; caller lists go stale.
-- **A comment describes current behavior, not a past implementation.** Version
-  control keeps history.
-- Do not flag a comment only because it is long or you would not write it. Flag only
-  restatement or staleness risk.
 
 ### Control flow and error handling
 
