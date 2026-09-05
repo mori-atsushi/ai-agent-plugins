@@ -59,6 +59,7 @@ Project rules win. This checklist covers what they do not say.
 
 ## Control flow
 
+- **A null check uses `if` or a null-safe scope function, not `when`.**
 - **A multi-line condition or null-check chain has a named intermediate value when it
   clarifies intent.** Short, self-explanatory expressions need none.
 
