@@ -34,3 +34,7 @@ Project rules win. This checklist covers what they do not say.
   and call-site-independent** (e.g. a fixed icon size). Once a size depends on
   where the composable is used — layout data specific to that call site — the
   caller computes and supplies it too, the same way it supplies position.
+- **A UI composable keeps business logic out of its body** (see design.md's
+  business-logic/UI split). For a composable, that means hoisting decisions and
+  computations to the host (the caller) or extracting them into a state class the
+  composable merely reads, rather than deriving or deciding them inline.

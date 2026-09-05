@@ -17,6 +17,14 @@ Kotlin, not Compose. Project rules win. This checklist covers what they do not s
   `modifier: Modifier = Modifier`, optional parameters, then a trailing
   `@Composable` lambda. The lambda stays last even with a default.
 
+## Naming
+
+- **A `Unit`-returning composable is named as a noun phrase, not a verb.** This
+  covers both a composable that emits UI and one that only runs a side effect
+  (e.g. a thin wrapper around `LaunchedEffect`, like `BackHandler`):
+  `ProfileHeaderLayout`, `RippleEffect`, `BackHandler`, not `ShowProfileHeader`,
+  `AnimateRipple`, `HandleBackPress`.
+
 ## Recomposition
 
 - **Per-frame animated state is read in a lambda modifier, not the composable body.**
@@ -43,7 +51,3 @@ Kotlin, not Compose. Project rules win. This checklist covers what they do not s
 - **A `@Preview` function is `private`.**
 - **A `@Preview` function names the displayed composable and variant:**
   `<ComposableName>Preview`, or `<ComposableName><Variant>Preview` for a variant.
-
-## What NOT to flag
-
-- A `.kt` file with no changed `@Composable`
