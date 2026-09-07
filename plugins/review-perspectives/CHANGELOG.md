@@ -2,6 +2,15 @@
 
 All notable changes to `review-perspectives` are documented in this file.
 
+## [1.2.0] - 2026-09-07
+
+### Changed
+
+- Codex review subagents now start with `fork_turns="none"`, preventing parent
+  conversation history from influencing the initial review.
+- Initial Codex review subagents now use `gpt-5.6-terra` at most, while preserving a
+  lower-capability parent model.
+
 ## [1.1.0] - 2026-09-06
 
 ### Added

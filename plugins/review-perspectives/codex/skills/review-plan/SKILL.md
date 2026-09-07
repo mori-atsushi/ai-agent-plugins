@@ -35,9 +35,11 @@ Extract a one-sentence objective. Extract concrete requirements and design decis
 
 ## 2. Run focused reviews in parallel
 
-Spawn two read-only subagents at once. Wait for both. Give each the plan, objective,
-and requirements. For file selectors, give the selectors instead of copying content.
-Tell agents to read them directly. Keep handles only until both results return.
+Read `<plugin root>/codex/references/initial-reviewer.md` and apply it to every
+initial reviewer. Spawn two read-only subagents at once. Wait for both. Give each the
+plan, objective, and requirements. For file selectors, give the selectors instead of
+copying content. Tell agents to read them directly. Keep handles only until both
+results return.
 
 | Label | Perspective file |
 | --- | --- |

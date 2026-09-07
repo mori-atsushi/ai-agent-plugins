@@ -43,7 +43,8 @@ bash "$REVIEW_PERSPECTIVES_ROOT/scripts/save-diff.sh" [branch]
 
 ## 2. Run the review
 
-Spawn one read-only subagent. Wait for its result.
+Read `<plugin root>/codex/references/initial-reviewer.md` and apply it to the initial
+reviewer. Spawn one read-only subagent. Wait for its result.
 
 ```text
 `REVIEW_PERSPECTIVES_ROOT` is <plugin root>. Read

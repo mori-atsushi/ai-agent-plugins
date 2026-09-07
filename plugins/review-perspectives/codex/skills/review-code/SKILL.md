@@ -41,8 +41,10 @@ bash "$REVIEW_PERSPECTIVES_ROOT/scripts/save-diff.sh" [branch]
 
 ## 2. Run the first review in parallel
 
-Spawn five read-only subagents at once. Wait for every result. Do not verify before
-the first review. Give each subagent one perspective and this common instruction:
+Read `<plugin root>/codex/references/initial-reviewer.md` and apply it to every
+initial reviewer. Spawn five read-only subagents at once. Wait for every result. Do
+not verify before the first review. Give each subagent one perspective and this common
+instruction:
 
 ```text
 `REVIEW_PERSPECTIVES_ROOT` is <plugin root>. Read
