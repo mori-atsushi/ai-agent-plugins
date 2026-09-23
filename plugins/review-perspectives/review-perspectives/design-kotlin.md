@@ -21,6 +21,9 @@ Project rules win. This checklist covers what they do not say.
 - **Sealed subtype nesting makes the hierarchy easy to read.** Nest small local
   subtypes; keep a large subtype top-level when nesting obscures it; use a consistent
   arrangement unless size gives a clear reason to differ.
+- **A `suspend` function invokes suspend work or implements a suspend API.** Do not
+  introduce `suspend` merely because callers are suspend; an override or interface
+  contract may require it even when its current implementation has no suspend call.
 
 ## Dependencies
 

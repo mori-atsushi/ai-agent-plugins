@@ -2,6 +2,21 @@
 
 All notable changes to `review-perspectives` are documented in this file.
 
+## Unreleased
+
+### Added
+
+- Design reviews now flag logically cohesive helper wrappers that only bundle caller-specific
+  control flow, error handling, logging, and fallback values.
+- Design reviews now reject generics introduced solely to unify processing between otherwise
+  concrete operations.
+- Kotlin design reviews now flag `suspend` functions without suspend work, and Android design
+  reviews flag blocking regular functions lacking a worker-thread annotation.
+- Test reviews now reject tests for classes that only delegate a function call to another
+  component.
+- Design reviews now require expected failures to be converted at their source and flag broad
+  exception handling that hides unrelated failures.
+
 ## [1.2.0] - 2026-09-07
 
 ### Changed

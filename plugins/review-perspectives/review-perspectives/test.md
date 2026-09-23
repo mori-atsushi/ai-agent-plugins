@@ -34,6 +34,8 @@ added logic. Check that coverage is proportionate.
 - A test does not duplicate rendering output (positions, dimensions, pixel
   coordinates) that a golden screenshot test already covers.
 - Each test adds coverage beyond a trivial happy path or an existing near-duplicate.
+  A class that only delegates a call needs tests of the delegated behavior, not its
+  own delegation test.
 - A test specifies intended durable behavior rather than a temporary implementation.
 - A class exists for production behavior, not solely to test a one-line clear guard.
 

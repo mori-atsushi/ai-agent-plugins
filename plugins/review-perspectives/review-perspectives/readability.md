@@ -24,7 +24,8 @@ mention still stands.
 
 ### Naming
 
-- **A name expresses its unit's purpose without surrounding context.**
+- **A name expresses what its unit computes or does without surrounding context.**
+  A shared subexpression's name must stay accurate in every branch that uses it.
 - **An identifier is descriptive rather than abbreviated or cryptic.** `repo`, `cfg`,
   and a single letter outside a small local scope usually need a fuller name.
 - **A non-transfer type names its concept without filler.** Avoid `Manager`,

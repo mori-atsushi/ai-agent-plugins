@@ -63,11 +63,6 @@ Project rules win. This checklist covers what they do not say.
 - **A multi-line condition or null-check chain has a named intermediate value when it
   clarifies intent.** Short, self-explanatory expressions need none.
 
-## Error handling
-
-- **Error handling catches only the expected failure type.** Do not use `runCatching`
-  when it would also catch `CancellationException` or programming errors.
-
 ## File and class structure
 
 - **A nested class is `private` rather than `inner` unless it needs its outer

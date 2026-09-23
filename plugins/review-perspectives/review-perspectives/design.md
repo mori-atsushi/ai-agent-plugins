@@ -39,6 +39,16 @@ with this perspective.
 - **Use cases depend on domain abstractions, not infrastructure details.** Repositories
   provide resolved data rather than leaking resource IDs, file paths, or framework
   contexts.
+- **Expected failures are converted where they occur.** When a data operation has a
+  meaningful recoverable failure, its data-layer owner catches only the expected
+  exception type and exposes the outcome through its API. Use `null` or `false` only
+  when that value has a clear, documented meaning; use a sealed type or enum when
+  callers need to distinguish outcomes. UI and use cases do not catch lower-layer
+  exceptions to invent fallback values. Avoid `catch (e: Throwable)`,
+  `catch (e: Exception)`, `runCatching`, and unfiltered `Flow.catch` that turn
+  unrelated exceptions into expected outcomes; a `Flow.catch` handler must identify
+  the expected upstream failure and rethrow others. If no useful recovery exists,
+  propagate the failure.
 
 ### Naming
 
@@ -71,8 +81,13 @@ owner.
 - **Non-trivial shared logic has a shared owner.** Extract logic with its own steps or
   conditions, or a third caller; a few shared lines with only two callers may remain
   local.
-- **An extracted helper represents one shared concern.** Similar-looking code with
-  different concerns stays separate so it can diverge safely.
+- **An extracted helper represents one shared concern with a named responsibility.**
+  Similar-looking code with different concerns stays separate so it can diverge
+  safely. Inline a configurable wrapper that merely groups caller-specific steps,
+  such as exception handling, logging, and fallback values. Similar `try`/`catch`
+  structures do not justify a shared abstraction. Do not introduce generics or
+  callbacks solely to unify such processing; retain them when they express a
+  distinct operation or necessary type polymorphism.
 
 - **Shared behavior lives with its owning type when it has one.** A helper for one
   domain object is often a member or extension on that type, so consumers do not
