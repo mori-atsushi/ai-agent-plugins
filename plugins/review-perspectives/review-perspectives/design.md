@@ -78,12 +78,14 @@ owner.
 - **A boundary exposes values or controlled mutation.** Do not pass a mutable
   collection, observable state, writer, string builder, or collector for another side
   to write; return a value or a read-only view with named mutations.
-- **Non-trivial shared logic has a shared owner.** Extract logic with its own steps or
-  conditions, or a third caller; a few shared lines with only two callers may remain
-  local.
+- **Shared logic has a shared owner when it is one responsibility.** Extract behavior
+  that should change together, especially when it has its own steps or conditions.
+  Two or three similar call sites may keep a few repeated lines when each owns the
+  behavior or may evolve independently; a caller count alone does not justify extraction.
 - **An extracted helper represents one shared concern with a named responsibility.**
   Similar-looking code with different concerns stays separate so it can diverge
-  safely. Inline a configurable wrapper that merely groups caller-specific steps,
+  safely. Keep caller-specific behavior at the caller, even when that leaves a small
+  repetition. Inline a configurable wrapper that merely groups caller-specific steps,
   such as exception handling, logging, and fallback values. Similar `try`/`catch`
   structures do not justify a shared abstraction. Do not introduce generics or
   callbacks solely to unify such processing; retain them when they express a
@@ -127,8 +129,8 @@ group.slots.foldIndexed(root) { slotIndex, current, _ ->
 
 ### Responsibilities and cohesion
 
-Single responsibility and high cohesion apply at every level. A class or function
-contains related concerns and splits independent responsibilities.
+Single responsibility and functional cohesion apply at every level. A class or function
+contains work belonging to one purpose and splits independent responsibilities.
 
 **At the class level**
 - Each class has one clear responsibility; parsing and persistence, or UI state and

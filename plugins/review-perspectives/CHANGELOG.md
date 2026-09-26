@@ -2,7 +2,12 @@
 
 All notable changes to `review-perspectives` are documented in this file.
 
-## Unreleased
+## [1.2.1] - 2026-09-26
+
+### Changed
+
+- Simplify and design reviews now favor functional cohesion over extracting a few
+  similar lines, leaving caller-owned behavior with its callers.
 
 ### Added
 

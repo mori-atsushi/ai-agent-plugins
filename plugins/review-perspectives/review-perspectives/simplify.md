@@ -8,8 +8,10 @@ splits to design. This perspective evaluates local duplication and complexity on
 
 ## Required state
 
-- **Repeated local computation or conditions have one function or property** when the
-  extraction preserves clarity.
+- **Share behavior, not just matching code.** Extract repeated computation or
+  conditions when they express the same responsibility and should change together.
+  Two or three similar call sites can stay separate when each owns its behavior or
+  may need to evolve independently. A few repeated lines alone are not a finding.
 - **Code uses an existing Kotlin, Android, imported-library, or named project utility
   when it already expresses the operation.** Examples include `chunked`, `groupBy`,
   `fold`, and `mapNotNull`.
