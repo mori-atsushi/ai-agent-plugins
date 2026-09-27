@@ -31,6 +31,11 @@ Kotlin, not Compose. Project rules win. This checklist covers what they do not s
   For example, use `Modifier.offset { ... }`, `graphicsLayer { ... }`, `layout { ... }`,
   or `drawBehind { ... }` instead of `Modifier.padding(bottom = animatedDp)`. A
   one-time state change and its one recomposition are not a concern.
+- **A lambda or function reference is not wrapped in `remember`.** With strong
+  skipping mode, the Compose compiler already memoizes lambdas created in a
+  composable, keyed by their captures. Flag `remember(key) { { ... } }` (a block
+  returning a lambda) and helpers such as `rememberOnClick()` that exist only to
+  remember a callback; write the plain lambda or reference.
 
 ## Semantics
 

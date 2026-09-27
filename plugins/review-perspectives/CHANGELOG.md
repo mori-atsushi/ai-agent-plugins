@@ -2,6 +2,13 @@
 
 All notable changes to `review-perspectives` are documented in this file.
 
+## [1.2.2] - 2026-09-27
+
+### Added
+
+- Compose readability reviews now flag lambdas and function references wrapped in
+  `remember`, which strong skipping already memoizes.
+
 ## [1.2.1] - 2026-09-26
 
 ### Changed
