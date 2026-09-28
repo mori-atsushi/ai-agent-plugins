@@ -2,6 +2,16 @@
 
 All notable changes to `review-perspectives` are documented in this file.
 
+## [1.2.3] - 2026-09-29
+
+### Changed
+
+- Readability reviews flag documentation comments that restate the code; a
+  documentation comment carries only background the code cannot show, such as argument
+  conditions, and is usually absent or one line.
+- Triage fixes code findings in the code before adding a comment, and checks any added
+  comment against the comment checklist.
+
 ## [1.2.2] - 2026-09-27
 
 ### Added

@@ -15,6 +15,10 @@ file, and `Read` returns all of it, so none of this may sit inside it.
 - **🔴 / 🟠 / 🟡 in scope**: fix.
 - **⚪ Low in scope**: fix when valid and simple; otherwise report.
 - **Dedupe** across reviewers before reporting.
+- **Code findings are fixed in the code, not covered with a comment.** Rename,
+  restructure, simplify, or add a test first. Add a comment when background the code
+  cannot show still needs one, and check it against
+  `$REVIEW_PERSPECTIVES_ROOT/review-perspectives/readability-comment.md` first.
 
 ## `--fix`
 

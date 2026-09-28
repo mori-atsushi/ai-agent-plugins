@@ -22,8 +22,12 @@ Project rules win. This checklist covers what they do not say.
 
 ## Documentation comments
 
-- **A documentation comment is optional.** Skip it when the code already makes the
-  intent clear; write one when a fuller explanation helps.
+- **A documentation comment carries only background the code cannot show:** argument
+  conditions (for example, that a value must already be sorted, non-negative, or
+  non-empty), what the return value means, and preconditions the caller must meet.
+  Usually that is no comment or one line. Flag one that walks through branches, edge
+  cases, or steps the body already makes plain; when it is long because the code is
+  hard to follow, propose simplifying the code.
 - **A documentation comment that exists has a summary.** Documenting only a property
   or a return value, with no summary, is not enough.
 - **A function whose purpose is an action, and that also returns a value, documents
@@ -36,5 +40,3 @@ Project rules win. This checklist covers what they do not say.
 ## Inline comments
 
 - **A workaround or a line whose behavior is not obvious has an inline comment.**
-- **A non-obvious argument constraint has an inline comment.** For example, that a
-  value must already be sorted, non-negative, or non-empty.
