@@ -4,6 +4,12 @@ All notable changes to `review-perspectives` are documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Compose readability reviews now check one file per public or internal composable,
+  file naming and declaration order, and previews at the bottom of the file unless
+  they are difficult to write or offer little value.
+
 ### Changed
 
 - Initial Codex review subagents now always use `gpt-6.1-sol`, regardless of the

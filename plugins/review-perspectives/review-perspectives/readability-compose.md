@@ -11,6 +11,16 @@ paths:
 Skip this file when the change has no `@Composable`. Its `paths` can narrow only to
 Kotlin, not Compose. Project rules win. This checklist covers what they do not say.
 
+## File structure
+
+- **Each public or internal composable has its own file.** Private composable and
+  non-composable helper functions may share that file. Related public or internal
+  classes, such as types used by the main composable's parameters, may also share it.
+- **The file is named `<MainComposableName>.kt`.**
+- **The main composable is normally the first declaration after constants.** Put
+  constants above it, and classes and private helper functions (including private
+  composables) below it.
+
 ## Parameters
 
 - **Composable parameters have a consistent order:** required parameters, one
@@ -51,6 +61,9 @@ Kotlin, not Compose. Project rules win. This checklist covers what they do not s
 
 ## Previews
 
+- **The file includes a preview unless it is difficult to write or offers little
+  value.**
+- **Preview functions are placed at the bottom of the file.**
 - **Preview-only defaults stay in the preview call.** A production composable does
   not gain a default parameter solely for `@Preview`.
 - **A `@Preview` function is `private`.**
