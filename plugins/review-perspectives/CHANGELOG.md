@@ -2,6 +2,13 @@
 
 All notable changes to `review-perspectives` are documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- Initial Codex review subagents now always use `gpt-6.1-sol`, regardless of the
+  parent model.
+
 ## [1.2.3] - 2026-09-29
 
 ### Changed
