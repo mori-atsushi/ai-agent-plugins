@@ -4,6 +4,8 @@ All notable changes to `review-perspectives` are documented in this file.
 
 ## [Unreleased]
 
+## [1.2.4] - 2026-10-05
+
 ### Added
 
 - Compose readability reviews now check one file per public or internal composable,
@@ -14,6 +16,8 @@ All notable changes to `review-perspectives` are documented in this file.
 
 - Initial Codex review subagents now always use `gpt-6.1-sol`, regardless of the
   parent model.
+- Test reviews now require clear Arrange, Act, and Assert boundaries, including
+  shared helpers that stay within a single step.
 
 ## [1.2.3] - 2026-09-29
 
