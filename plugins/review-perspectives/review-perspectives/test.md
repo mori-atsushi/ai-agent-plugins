@@ -41,6 +41,9 @@ added logic. Check that coverage is proportionate.
 
 ### Test form
 
+- Keep Arrange, Act, and Assert identifiable from each test function. Shared
+  helpers may extract work within one step, but must not combine work across
+  step boundaries.
 - A test exercises behavior through a public seam. If none exists, use a separate
   class rather than calling a private function directly.
 - A test uses a hand-written Fake when it is sufficient; a mocking library has a
