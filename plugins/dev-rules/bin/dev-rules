@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Lists the rules that apply to the given paths; see scripts/rules.sh for the options.
+set -euo pipefail
+exec "$(cd "$(dirname "$0")/.." && pwd)/scripts/rules.sh" "$@"

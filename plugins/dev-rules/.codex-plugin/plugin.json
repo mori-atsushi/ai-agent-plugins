@@ -1,0 +1,27 @@
+{
+  "name": "dev-rules",
+  "version": "2.0.0",
+  "description": "General coding rules plus code, plan, and harness review workflows for Codex and Claude Code.",
+  "author": {
+    "name": "Mori Atsushi",
+    "email": "at.sushi.tb@gmail.com"
+  },
+  "skills": "./codex/skills/",
+  "interface": {
+    "displayName": "Dev Rules",
+    "shortDescription": "Coding rules, and reviews that apply them.",
+    "longDescription": "Provides general coding rules and lists the ones that apply to given files, and runs focused, multi-perspective reviews for code, implementation plans, and agent harness material against them. Projects add their own rules without copying the plugin.",
+    "developerName": "Mori Atsushi",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "List the rules for the files I am changing",
+      "Review my current code changes",
+      "Review this implementation plan"
+    ]
+  }
+}

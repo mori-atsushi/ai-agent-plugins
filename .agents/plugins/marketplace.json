@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "review-perspectives",
+      "name": "dev-rules",
       "source": {
         "source": "local",
-        "path": "./plugins/review-perspectives"
+        "path": "./plugins/dev-rules"
       },
       "policy": {
         "installation": "AVAILABLE",

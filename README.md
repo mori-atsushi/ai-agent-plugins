@@ -4,12 +4,12 @@ Personal marketplace for plugins that work with both Codex and Claude Code.
 
 ## Plugins
 
-- `review-perspectives` — review code, implementation plans, and agent harness changes
+- `dev-rules` — general coding rules, plus code, plan, and harness review workflows that apply them
 
 ## Use inside this repository
 
 `.claude/settings.json` declares this repo's own marketplace and enables
-`review-perspectives` at the project scope, so Claude Code offers to trust and
+`dev-rules` at the project scope, so Claude Code offers to trust and
 load it the first time you open this checkout — no install command needed.
 Approve the trust prompt, then start a new session.
 
@@ -19,19 +19,19 @@ Codex:
 
 ```bash
 codex plugin marketplace add mori-atsushi/ai-agent-plugins
-codex plugin add review-perspectives@personal
+codex plugin add dev-rules@personal
 ```
 
 Claude Code:
 
 ```bash
 claude plugin marketplace add mori-atsushi/ai-agent-plugins
-claude plugin install review-perspectives@atsushi-plugins
+claude plugin install dev-rules@atsushi-plugins
 ```
 
 Start a new session after installing. Claude Code invokes its skills as
-`/review-perspectives:review-code`, `/review-perspectives:review-plan`, and
-`/review-perspectives:review-harness`.
+`/dev-rules:rules`, `/dev-rules:review-code`, `/dev-rules:review-plan`, and
+`/dev-rules:review-harness`.
 
 ## Develop from a checkout
 

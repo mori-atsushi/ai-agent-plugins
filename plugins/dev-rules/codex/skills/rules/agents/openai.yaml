@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rules"
+  short_description: "List the coding rules that apply to given files"
+  default_prompt: "Use $rules to list the rules that apply to the files I am about to change."
+
+policy:
+  allow_implicit_invocation: true

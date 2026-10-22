@@ -8,6 +8,6 @@
     }
   },
   "enabledPlugins": {
-    "review-perspectives@atsushi-plugins": true
+    "dev-rules@atsushi-plugins": true
   }
 }
