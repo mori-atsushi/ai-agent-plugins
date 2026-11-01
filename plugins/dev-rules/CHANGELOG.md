@@ -5,6 +5,15 @@ this file.
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-11-01
+
+### Changed
+
+- Each finding must cite the rule, spec, or perspective file that grounds it, as a trailing
+  `— grounds: <path>`, so the caller can verify it.
+- `kotlin-design`: a function-type parameter forwarded through two or more classes or layers is a
+  named `interface` (or a class when tests do not substitute it), not a lambda.
+
 ## [2.0.0] - 2026-10-22
 
 ### Changed

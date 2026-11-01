@@ -28,6 +28,11 @@ paths:
   logging; otherwise use a specific type, generic, or sealed hierarchy.
 - **A `data class` is a value object.** A class holding mutable state, callbacks, or
   behavior beyond equality and copying is a regular class.
+- **A function-type parameter forwarded through two or more classes or layers is a
+  named type, not a lambda.** A bare `(String) -> Int` can be swapped with any other
+  function of the same shape. Define an `interface` (a `fun interface` when it has one
+  method) when tests substitute a fake, and a plain class otherwise. A callback used in
+  one place stays a lambda, and so do Compose event callbacks such as `onClick`.
 - **A serialized name is explicit and stable**, so a rename in code cannot break
   stored data: a serialized enum case has `@SerialName`, and a serialized sealed
   subtype an explicit discriminator.

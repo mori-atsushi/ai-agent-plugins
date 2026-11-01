@@ -52,7 +52,11 @@ file selection, or implementation plan:
 
 Return each finding as:
 
-- **\<severity\>** **[file:line]** The issue, and the fix or principle as the perspective directs.
+- **\<severity\>** **[file:line]** \<the issue, and the fix or principle as the perspective
+  directs\> — _grounds: \`\<path\>\`_ — the rule, spec, or perspective file that justifies the
+  finding (comma-separate paths when more than one does), so the caller can verify it. A
+  perspective's own format (e.g. `spec.md`'s) overrides this template but keeps the severity
+  prefix below.
 
 Prefix every finding with exactly one suggested severity so the caller can triage — the
 caller may adjust it:
