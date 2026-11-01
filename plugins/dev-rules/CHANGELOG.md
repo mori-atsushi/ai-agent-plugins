@@ -5,6 +5,13 @@ this file.
 
 ## [Unreleased]
 
+## [2.0.2] - 2026-11-02
+
+### Changed
+
+- `general`: a concept the standard library or framework already names keeps that name, not a
+  synonym (for example `xxxOrNull` in Kotlin, `popUpTo` in Android Navigation).
+
 ## [2.0.1] - 2026-11-01
 
 ### Changed

@@ -14,6 +14,13 @@ paths:
   `repository`, not `repo`. A single letter is fine only in a small local scope.
 - **A type names its concept without filler** such as `Manager`, `Handler`,
   `Helper`, `Util`, or `Data` when the rest of the name already is the concept.
+- **A concept the standard library or framework already names keeps that name**, not
+  a synonym. Examples:
+  - Kotlin: `xxxOrNull` for a null-returning variant, `toXxx()` for a conversion and
+    `asXxx()` for a view.
+  - Android: `popUpTo` as Navigation names it, not `popThrough`.
+  - Swift: `makeXxx()` for a factory.
+  - Python: `append` and `extend` for lists, not `add` and `add_all`.
 - **A word with a programming meaning (`run`, `job`, `task`) is used only in that
   meaning.**
 
