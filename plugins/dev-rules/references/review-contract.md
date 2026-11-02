@@ -47,7 +47,7 @@ file selection, or implementation plan:
 5. When the material is a plan rather than current code or a diff, treat the
    proposed design as the change: flag issues with the plan, not with existing code.
 6. Use an objective or specifications block, when supplied, only to judge the change's
-   intent.
+   intent. An item tagged `(plan)` shows the intended approach, not a requirement.
 7. Do not edit files. `rules.sh` is the only command you run.
 
 Return each finding as:

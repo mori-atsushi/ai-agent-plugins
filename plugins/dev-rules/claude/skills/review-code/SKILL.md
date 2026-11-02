@@ -40,7 +40,8 @@ For diff scope, capture `DIFF=`, `FILES=`, and `MODE=` from stdout. Stop if
 
 From the **conversation history**, extract:
 - **Objective**: one sentence describing the goal
-- **Specifications**: bullet list of requirements from specs/design docs/plans (omit if none)
+- **Specifications**: bullet list of requirements from specs, then items from issues,
+  design docs, or plans, each tagged `(plan)` (omit if none)
 
 ## Step 1: Launch review agents — ITERATION START
 
@@ -87,15 +88,18 @@ agents via `SendMessage(to: agentId)`. Without `--fix`, the handles are not need
 ## Step 2: Triage
 
 Apply **Triage** and **`--fix`** from
-`$DEV_RULES_ROOT/references/review-triage.md`. One rule
-is specific to this skill:
+`$DEV_RULES_ROOT/references/review-triage.md`. Two rules
+are specific to this skill:
 
 - **Spec update suggested**: fix — apply the spec edit in this PR when the change
   intentionally supersedes the recorded behavior; leave it out only when the correct
   new wording is unclear
-- **Design finding**: evaluate it on its merits. Do not reject it only because the
-  implementation follows a plan. Plans guide the work; they are not the required
-  solution.
+- **Contradicts the plan** (an issue, design doc, task list, or plan file the change
+  was built from): judge the finding on its merits, never only by "the plan says
+  otherwise". Sounder finding → treat it as in scope and, with `--fix`, also update
+  any plan file in the repository; report the departure for the PR. Sounder plan →
+  keep it and report why the finding is wrong. A user message in this conversation
+  is not a plan: report a conflict with it, do not override it.
 
 **Without `--fix`**: go straight to Step 4 (report) — no matter what Step 2 found.
 

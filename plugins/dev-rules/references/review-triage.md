@@ -11,7 +11,8 @@ file, and `Read` returns all of it, so none of this may sit inside it.
 
 - **Ignore** a finding that misreads the material, speculates about code outside it, or
   targets an existing instruction the change does not touch.
-- **Out of scope** (any severity): report, do not fix.
+- **Out of scope** (any severity) — the finding names code outside the material,
+  not a file or hunk in it: report, do not fix.
 - **🔴 / 🟠 / 🟡 in scope**: fix.
 - **⚪ Low in scope**: fix when valid and simple; otherwise report.
 - **Dedupe** across reviewers before reporting.

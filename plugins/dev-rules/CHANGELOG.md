@@ -5,6 +5,14 @@ this file.
 
 ## [Unreleased]
 
+## [2.0.3] - 2026-11-03
+
+### Changed
+
+- `review-code` judges a finding that contradicts the issue, design doc, or plan on its merits
+  instead of dropping it, and tags plan items `(plan)` for reviewers as intent, not requirements.
+- Triage: out of scope now means a finding about code outside the reviewed material.
+
 ## [2.0.2] - 2026-11-02
 
 ### Changed

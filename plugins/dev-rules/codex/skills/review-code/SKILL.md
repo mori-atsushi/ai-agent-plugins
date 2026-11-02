@@ -36,8 +36,9 @@ bash "$DEV_RULES_ROOT/scripts/save-diff.sh" [branch]
   paste the diff in the parent context.
 - For direct file scope, **do not run the diff script**. Keep the validated selectors
   as `MATERIAL`. There is no `FILES` path. Do not widen the selection.
-- Infer a one-sentence objective. Infer requirements from the conversation, specs,
-  design docs, and plans. Omit unavailable blocks.
+- Infer a one-sentence objective. Infer requirements from the conversation and specs,
+  then add items from issues, design docs, and plans, each tagged `(plan)`. Omit
+  unavailable blocks.
 
 ## 2. Run the first review in parallel
 
@@ -82,14 +83,17 @@ re-reviews. Without `--fix`, the handles are not needed.
 ## 3. Triage
 
 Apply **Triage** and **`--fix`** from
-`$DEV_RULES_ROOT/references/review-triage.md`. One rule
-is specific to this skill:
+`$DEV_RULES_ROOT/references/review-triage.md`. Two rules
+are specific to this skill:
 
 - Apply a suggested spec update in this change when it intentionally supersedes the
   recorded behavior; leave it out only when the correct new wording is unclear.
-- Evaluate every design finding on its merits. Do not reject it only because the
-  implementation follows a plan. Plans guide the work; they are not the required
-  solution.
+- Judge a finding that contradicts the issue, design doc, task list, or plan file the
+  change was built from on its merits, never only by "the plan says otherwise". When
+  the finding is sounder, treat it as in scope and, with `--fix`, also update any plan
+  file in the repository; report the departure for the PR. When the plan is sounder,
+  keep it and report why the finding is wrong. A user message in this conversation is
+  not a plan: report a conflict with it, do not override it.
 
 **Without `--fix`**: go straight to the report, no matter what this step found.
 
