@@ -3,7 +3,7 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
-## [Unreleased]
+## [2.1.0] - 2026-11-03
 
 ### Added
 
