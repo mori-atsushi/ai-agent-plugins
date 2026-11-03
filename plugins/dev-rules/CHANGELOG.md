@@ -13,6 +13,8 @@ this file.
   rules each perspective applied, to a JSON Lines log; any invalid finding rejects the whole
   input.
 - `review-code` and `review-plan` log their first round's findings with `log-findings.sh`.
+- `scripts/rule-stats.sh` counts, per rule, how often reviews applied and cited it, and how the
+  citing findings were triaged.
 
 ## [2.0.4] - 2026-11-03
 

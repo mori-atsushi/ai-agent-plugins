@@ -60,6 +60,19 @@ number, and a deleted rule's number stays unused.
 `perspectives/` holds only what a reviewer needs beyond the rules: each perspective's
 scope, steps, and what not to flag.
 
+## Rule usage
+
+`review-code` and `review-plan` log each first-round finding, with the rules each
+perspective applied, through `scripts/log-findings.sh`. The log is
+`~/.local/state/dev-rules/findings.jsonl` (`$XDG_STATE_HOME` or `$DEV_RULES_LOG` moves
+it) and needs `jq`.
+
+`scripts/rule-stats.sh` counts, per rule, the reviews that applied it, the findings
+that cite it, and how they were triaged. Judge only rules applied in many reviews. A
+rule seldom cited is either followed or never triggers: search reviewed code for what
+it forbids to tell which. A rule whose findings are mostly rejected is unclear or too
+strict: read those findings, then reword or remove it.
+
 ## Add project rules
 
 Keep a project's own rules in its repository's `.agents/rules/`, not in this plugin.

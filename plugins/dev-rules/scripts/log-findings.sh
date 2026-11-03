@@ -47,6 +47,7 @@ ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$ROOT"
 
 # The rule a citation names: each ID in a rule file, or the file's path when it has none.
+# rule-stats.sh matches IDs with the same pattern.
 rule_keys() {
   local ids
   ids="$(sed -n 's/^- \[\([A-Z][A-Z0-9]*-[0-9][0-9]*\)\].*/\1/p' "$1")"
