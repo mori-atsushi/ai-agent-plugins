@@ -139,7 +139,7 @@ Go to Step 2 with new findings. Stop after 3 total iterations.
 ### Iterations: <N>
 
 ### Findings
-<output of `review-record.sh report`>
+<findings, as **Record** step 3 in review-triage.md>
 
 ### Test / Build
 - ✅ <selectors> passed  (or ❌ <module>: <summary>, or ⏭️ skipped — <reason, e.g. docs-only fixes / no fixes made>)
@@ -151,5 +151,5 @@ Go to Step 2 with new findings. Stop after 3 total iterations.
 ## Review Report
 
 ### Findings by severity
-<output of `review-record.sh report`>
+<findings, as **Record** step 3 in review-triage.md>
 ```

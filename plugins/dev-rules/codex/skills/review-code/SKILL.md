@@ -131,7 +131,7 @@ round before triage and reuse the same reviewer threads for re-review.
 ### Iterations: <N>
 
 ### Findings
-<output of `review-record.sh report`>
+<findings, as **Record** step 3 in review-triage.md>
 
 ### Test / Build
 - ✅ <selectors> passed
@@ -145,5 +145,5 @@ round before triage and reuse the same reviewer threads for re-review.
 ## Review Report
 
 ### Findings by severity
-<output of `review-record.sh report`>
+<findings, as **Record** step 3 in review-triage.md>
 ```

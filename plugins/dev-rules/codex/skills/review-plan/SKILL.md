@@ -102,7 +102,7 @@ rewrite the plan in chat. Report only. State that `--fix` had no target.
 <1–3 sentence overview of the plan and overall quality>
 
 ### Findings
-<output of `review-record.sh report`>
+<findings, as **Record** step 3 in review-triage.md>
 
 ### Fixes applied
 <Only with --fix. List what changed in the selected plan files, or "None — --fix had

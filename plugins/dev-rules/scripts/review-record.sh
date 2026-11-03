@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-# Keeps one review's findings in a JSON file: the source of the review's report and of
-# rule-stats.sh's counts. Files live in $DEV_RULES_REVIEWS, default
-# ${XDG_STATE_HOME:-~/.local/state}/dev-rules/reviews.
+# Keeps one review's findings in a JSON file, the source of rule-stats.sh's counts. Files
+# live in $DEV_RULES_REVIEWS, default ${XDG_STATE_HOME:-~/.local/state}/dev-rules/reviews.
 #
 # Usage:
 #   review-record.sh new --skill <name> --perspective <name>... [--files-list <file>] [<path>...]
@@ -9,9 +8,8 @@
 #       given files) and prints RECORD=<path>.
 #   review-record.sh add <record> < findings.jsonl
 #       Validates one round of triaged findings, one JSON object per line, and appends
-#       them as the next round. Any invalid line rejects the whole round (exit 1).
-#   review-record.sh report <record>
-#       Prints the findings as Markdown, grouped by severity.
+#       them as the next round, numbered in input order after the earlier rounds. Prints
+#       only the numbers given. Any invalid line rejects the whole round (exit 1).
 #
 # A finding:
 #   {"perspectives": ["design"], "severity": "medium", "location": "app/Main.kt:42",
@@ -161,33 +159,14 @@ cmd_add() {
     exit 1
   fi
   mv "$tmp" "$record"
-  jq -r '"Recorded \(.findings | map(select(.round == $round)) | length) findings as round \(.rounds)"' \
-    --argjson round "$(jq .rounds "$record")" "$record"
-}
-
-cmd_report() {
-  local record="${1:?report needs a record path}"
-  jq -r '
-    (.findings | map(select(.triage != "ignore"))) as $shown
-    | (.findings | map(select(.triage == "ignore") | "#\(.id)")) as $ignored
-    | if ($shown | length) == 0 then "No issues found."
-      else
-        ([["critical", "🔴 Critical"], ["high", "🟠 High"], ["medium", "🟡 Medium"], ["low", "⚪ Low"]][]
-          as [$severity, $label]
-          | ($shown | map(select(.severity == $severity))) as $items
-          | select($items | length > 0)
-          | $label,
-            ($items[] | "- #\(.id) [\(.location)] \(.issue) — _grounds: \(.grounds | join(", "))_"
-              + (if .triage == "out-of-scope" then " (out of scope)" else "" end)),
-            "")
-      end,
-    (select($ignored | length > 0) | "Ignored: \($ignored | join(", "))")
-  ' "$record"
+  jq -r '.rounds as $round | [.findings[] | select(.round == $round) | .id]
+    | if length == 0 then "Recorded no findings (round \($round))"
+      elif length == 1 then "Recorded 1 finding as #\(first) (round \($round))"
+      else "Recorded \(length) findings as #\(first)–#\(last) (round \($round))" end' "$record"
 }
 
 case "${1:-}" in
   new) shift; cmd_new "$@" ;;
   add) shift; cmd_add "$@" ;;
-  report) shift; cmd_report "$@" ;;
-  *) echo "Usage: review-record.sh new|add|report ..." >&2; exit 1 ;;
+  *) echo "Usage: review-record.sh new|add ..." >&2; exit 1 ;;
 esac

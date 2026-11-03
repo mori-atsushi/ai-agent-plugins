@@ -63,8 +63,7 @@ scope, steps, and what not to flag.
 ## Rule usage
 
 `review-code` and `review-plan` keep each review's findings, with the rules each
-perspective applied, in one JSON record written by `scripts/review-record.sh`, and
-print the report's findings from it. Records live in
+perspective applied, in one JSON record written by `scripts/review-record.sh`. Records live in
 `~/.local/state/dev-rules/reviews/` (`$XDG_STATE_HOME` or `$DEV_RULES_REVIEWS` moves
 them) and need `jq`. A finding cites a rule by its ID, or a project rule without IDs by
 its path; `rule-stats.sh` prefixes project rules with the project's name.

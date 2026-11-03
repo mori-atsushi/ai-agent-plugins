@@ -11,7 +11,7 @@ this file.
   grounds.
 - `review-code` and `review-plan` keep each review's findings in its own JSON record through
   `scripts/review-record.sh`, which validates each triage round (`in-scope`,
-  `out-of-scope`, `ignore`) and prints the report's numbered findings from the record.
+  `out-of-scope`, `ignore`) and numbers the findings the report lists.
 - `scripts/rule-stats.sh` counts, per rule, how often reviews applied and cited it, and how the
   citing findings were triaged, with project rules grouped by project.
 

@@ -29,8 +29,7 @@ listed in full, and the report says what it *would* fix. Make no edits.
 
 ## Record
 
-The review's findings live in one record file. The report's findings are printed from
-it, and rule usage is counted from it.
+Each review's findings go into one record file, from which rule usage is counted.
 
 1. Before the first triage, create the record once. Keep the printed `RECORD=` path for
    every later round:
@@ -60,11 +59,15 @@ it, and rule usage is counted from it.
    - `triage`: `in-scope`, `out-of-scope` (the **Out of scope** row), or `ignore`
      (including a finding a skill's gate drops).
 
-   On exit 1, fix the lines it names and resend the whole round.
+   On exit 1, fix the lines it names and resend the whole round. On success it prints
+   the numbers it gave, in input order.
 
-3. Print the report's findings, grouped by severity, with
-   `bash "$DEV_RULES_ROOT/scripts/review-record.sh" report "$RECORD"`. Use its output
-   unchanged.
+3. Write the report's findings yourself: every round's, with the numbers `add` gave and
+   the text, severity, and grounds you recorded. Group them under `🔴 Critical`, `🟠 High`,
+   `🟡 Medium`, and `⚪ Low`, omitting empty groups, one line each:
+   `- #<number> [<location>] <issue> — _grounds: <grounds>_`, with ` (out of scope)`
+   appended for `out-of-scope`. End with `Ignored: #<number>, ...` when any were
+   ignored. With nothing to show, write `No issues found.`
 
-If the script fails any other way, write the findings into the report yourself in the
-same shape, grouped by severity, and say they were not recorded.
+If recording fails any other way, such as no `jq` (exit 2), write the findings the same
+way without numbers, and say they were not recorded.
