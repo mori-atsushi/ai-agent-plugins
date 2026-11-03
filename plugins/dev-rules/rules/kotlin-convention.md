@@ -10,32 +10,32 @@ paths:
 
 ## Call sites
 
-- **Swappable same-typed arguments are named.** Use named arguments when a reader
+- [KC-1] **Swappable same-typed arguments are named.** Use named arguments when a reader
   could swap two or more positional values of the same type. Obvious conventions
   such as `Offset(x, y)` stay positional.
 
 ## Values and functions
 
-- **A value without reassignment is a `val`.**
-- **A function declares its return type**, except a block-body function returning
+- [KC-2] **A value without reassignment is a `val`.**
+- [KC-3] **A function declares its return type**, except a block-body function returning
   `Unit`.
-- **A single-expression function uses an expression body.**
-- **No local functions**: extract to a private function or a separate class.
-- **A lambda that only calls a constructor is a constructor reference** (`::Foo`).
-- **A null check uses `if` or a null-safe scope function, not `when`.**
+- [KC-4] **A single-expression function uses an expression body.**
+- [KC-5] **No local functions**: extract to a private function or a separate class.
+- [KC-6] **A lambda that only calls a constructor is a constructor reference** (`::Foo`).
+- [KC-7] **A null check uses `if` or a null-safe scope function, not `when`.**
 
 ## Comments
 
-- **A constructor property is documented with a class-level `@property` tag**, not an
+- [KC-8] **A constructor property is documented with a class-level `@property` tag**, not an
   inline comment.
 
 ## Files and classes
 
-- **`XxxExt.kt` holds extensions on `Xxx`.** A `public` or `internal` extension on
+- [KC-9] **`XxxExt.kt` holds extensions on `Xxx`.** A `public` or `internal` extension on
   another receiver goes in a file named for that receiver; a `private` one may stay
   in the file that uses it.
-- **Sealed subtypes nest inside their sealed type** unless one is large enough that
+- [KC-10] **Sealed subtypes nest inside their sealed type** unless one is large enough that
   nesting hurts readability; then it is top-level in its own file and imported by
   name. One hierarchy does not mix both arrangements.
-- **A nested class is `private` rather than `inner`** unless it needs its outer
+- [KC-11] **A nested class is `private` rather than `inner`** unless it needs its outer
   instance.

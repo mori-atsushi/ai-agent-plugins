@@ -53,10 +53,10 @@ file selection, or implementation plan:
 Return each finding as:
 
 - **\<severity\>** **[file:line]** \<the issue, and the fix or principle as the perspective
-  directs\> — _grounds: \`\<path\>\`_ — the rule, spec, or perspective file that justifies the
-  finding (comma-separate paths when more than one does), so the caller can verify it. A
-  perspective's own format (e.g. `spec.md`'s) overrides this template but keeps the severity
-  prefix below.
+  directs\> — _grounds: \`\<ID or path\>\`_ — what justifies the finding, so the caller can
+  verify it: a rule's ID (`KD-3`), else its path; a spec's or perspective file's path.
+  Comma-separate several. A perspective's own format (e.g. `spec.md`'s) overrides this
+  template but keeps the severity prefix below.
 
 Prefix every finding with exactly one suggested severity so the caller can triage — the
 caller may adjust it:

@@ -52,6 +52,11 @@ Each rule file names exactly one perspective, so no two reviewers judge the same
 A language or framework splits its rules into `<name>-convention` (readability) and
 `<name>-design` (design) files.
 
+Each rule starts with an ID, such as `[KD-3]`: a prefix unique to its file and a
+number. Reviewers cite the ID, so rule usage can be counted. An ID never changes or
+gets reused: rewording or moving a rule keeps its ID, a new rule takes the file's next
+number, and a deleted rule's number stays unused.
+
 `perspectives/` holds only what a reviewer needs beyond the rules: each perspective's
 scope, steps, and what not to flag.
 

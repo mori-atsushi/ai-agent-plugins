@@ -5,6 +5,11 @@ this file.
 
 ## [Unreleased]
 
+### Added
+
+- Each rule starts with a stable ID, such as `[KD-3]`, and reviewers cite it in a finding's
+  grounds.
+
 ## [2.0.4] - 2026-11-03
 
 ### Changed

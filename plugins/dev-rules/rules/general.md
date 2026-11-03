@@ -10,50 +10,50 @@ paths:
 
 ## Naming
 
-- **An identifier is spelled out, not abbreviated.** `requestTimeout`, not `rt`;
+- [GN-1] **An identifier is spelled out, not abbreviated.** `requestTimeout`, not `rt`;
   `repository`, not `repo`. A single letter is fine only in a small local scope.
-- **A type names its concept without filler** such as `Manager`, `Handler`,
+- [GN-2] **A type names its concept without filler** such as `Manager`, `Handler`,
   `Helper`, `Util`, or `Data` when the rest of the name already is the concept.
-- **A concept the standard library or framework already names keeps that name**, not
+- [GN-3] **A concept the standard library or framework already names keeps that name**, not
   a synonym. Examples:
   - Kotlin: `xxxOrNull` for a null-returning variant, `toXxx()` for a conversion and
     `asXxx()` for a view.
   - Android: `popUpTo` as Navigation names it, not `popThrough`.
   - Swift: `makeXxx()` for a factory.
   - Python: `append` and `extend` for lists, not `add` and `add_all`.
-- **A word with a programming meaning (`run`, `job`, `task`) is used only in that
+- [GN-4] **A word with a programming meaning (`run`, `job`, `task`) is used only in that
   meaning.**
 
 ## Control flow
 
-- **An early return is a guard clause or an edge case off the happy path.** Equally
+- [GN-5] **An early return is a guard clause or an edge case off the happy path.** Equally
   weighted branches use one conditional (`if (cond) X else Y`).
-- **Control flow stays shallow, and a function keeps flow, concrete work, I/O, and
+- [GN-6] **Control flow stays shallow, and a function keeps flow, concrete work, I/O, and
   type conversion in cohesive units.** Extract deeply nested logic or an independent
   step into a private function — only when it gets a clear name.
-- **An expression gets a named value only when inlining hides intent**, such as a
+- [GN-7] **An expression gets a named value only when inlining hides intent**, such as a
   multi-line condition or a chain of null checks. Short, self-explanatory
   expressions stay inline.
 
 ## Files and members
 
-- **A file holds one top-level class**, small value types and enums included, unless
+- [GN-8] **A file holds one top-level class**, small value types and enums included, unless
   a more specific rule (such as [compose-convention.md](compose-convention.md))
   groups declarations. A
   helper used only by one parent may nest inside it, without the parent's prefix
   (under `OrderSummary`, `LineItem`, not `OrderLineItem`).
-- **Class members follow this order:** properties, initialization, functions, nested
+- [GN-9] **Class members follow this order:** properties, initialization, functions, nested
   types, then companion or static members.
-- **A file stays readable in size.** Split a production file over 500 lines; 1000
+- [GN-10] **A file stays readable in size.** Split a production file over 500 lines; 1000
   lines is the hard limit for production and test files.
 
 ## Declaration order
 
 Within each list, the earlier criterion wins:
 
-- **Properties and constructor parameters:** dependency (depended-on first), then
+- [GN-11] **Properties and constructor parameters:** dependency (depended-on first), then
   importance (identifiers and core state before derived or auxiliary values), then
   relatedness.
-- **Cases of a restricted type or enum:** importance or call order (initial before
+- [GN-12] **Cases of a restricted type or enum:** importance or call order (initial before
   terminal, success before error), then relatedness.
-- **Functions:** call order — a caller sits above the functions it calls.
+- [GN-13] **Functions:** call order — a caller sits above the functions it calls.
