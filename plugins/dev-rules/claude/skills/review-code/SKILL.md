@@ -2,7 +2,7 @@
 name: review-code
 description: "Review code from five perspectives; report-only by default. Pass \"--fix\" to fix and verify. Pass \"branch\" for a branch review or file paths/ranges for direct review; otherwise review uncommitted changes. Triggers: \"polish\", \"ポリッシュ\", \"レビューして修正\", \"review this diff\"."
 argument-hint: "[branch | <file[:line[-end]]>...] [--fix]"
-allowed-tools: Agent, SendMessage, Read, Edit, Write, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/save-diff.sh*), Bash($CLAUDE_PLUGIN_ROOT/scripts/log-findings.sh*), Bash(git diff *), Bash(git log *)
+allowed-tools: Agent, SendMessage, Read, Edit, Write, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/save-diff.sh*), Bash($CLAUDE_PLUGIN_ROOT/scripts/review-record.sh*), Bash(git diff *), Bash(git log *)
 ---
 
 # Review Code Skill
@@ -101,8 +101,8 @@ are specific to this skill:
   keep it and report why the finding is wrong. A user message in this conversation
   is not a plan: report a conflict with it, do not override it.
 
-After the first round only, apply **Log** from the same file with
-`--skill review-code` and all five perspectives.
+Then apply **Record** from the same file with `--skill review-code` and all five
+perspectives.
 
 **Without `--fix`**: go straight to Step 4 (report) — no matter what Step 2 found.
 
@@ -138,14 +138,10 @@ Go to Step 2 with new findings. Stop after 3 total iterations.
 
 ### Iterations: <N>
 
-### Fixed
-- [file:line] <fix> (was: <finding>)
+<output of `review-record.sh report --by-outcome`>
 
 ### Test / Build
 - ✅ <selectors> passed  (or ❌ <module>: <summary>, or ⏭️ skipped — <reason, e.g. docs-only fixes / no fixes made>)
-
-### Remaining
-- ⚪/🟠 [file:line] — <finding> (reason: out-of-scope / Low not fixed)
 ```
 
 **Without `--fix`**:
@@ -154,17 +150,5 @@ Go to Step 2 with new findings. Stop after 3 total iterations.
 ## Review Report
 
 ### Findings by severity
-🔴 Critical
-- [file:line] <finding> (in-scope / out-of-scope)
-
-🟠 High
-- ...
-
-🟡 Medium
-- ...
-
-⚪ Low
-- ...
-
-(Omit a severity group with no findings. If none at all, say "No issues found.")
+<output of `review-record.sh report`>
 ```

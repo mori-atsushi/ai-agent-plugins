@@ -95,8 +95,8 @@ are specific to this skill:
   keep it and report why the finding is wrong. A user message in this conversation is
   not a plan: report a conflict with it, do not override it.
 
-After the first round only, apply **Log** from the same file with
-`--skill review-code` and all five perspectives.
+Then apply **Record** from the same file with `--skill review-code` and all five
+perspectives.
 
 **Without `--fix`**: go straight to the report, no matter what this step found.
 
@@ -130,20 +130,13 @@ round before triage and reuse the same reviewer threads for re-review.
 
 ### Iterations: <N>
 
-### Fixed
-- [file:line] <fix> (was: <finding>)
+<output of `review-record.sh report --by-outcome`>
 
 ### Test / Build
 - ✅ <selectors> passed
   # or ❌ <module>: <summary>
   # or ⏭️ skipped — <reason>
-
-### Remaining
-- ⚪/🟠 [file:line] — <finding> (reason: out-of-scope / Low not fixed)
 ```
-
-If there are no fixed or remaining findings, say so explicitly in the relevant
-section.
 
 **Without `--fix`**:
 
@@ -151,18 +144,5 @@ section.
 ## Review Report
 
 ### Findings by severity
-🔴 Critical
-- [file:line] <finding> (in-scope / out-of-scope)
-
-🟠 High
-- ...
-
-🟡 Medium
-- ...
-
-⚪ Low
-- ...
+<output of `review-record.sh report`>
 ```
-
-Omit a severity group with no findings. If there are none at all, say exactly
-"No issues found."

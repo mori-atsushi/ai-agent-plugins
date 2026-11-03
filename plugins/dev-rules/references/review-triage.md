@@ -27,27 +27,45 @@ file, and `Read` returns all of it, so none of this may sit inside it.
 **reported** rather than **fixed**, so out-of-scope and unfixed findings are still
 listed in full, and the report says what it *would* fix. Make no edits.
 
-## Log
+## Record
 
-After the first round's triage, log every finding the reviewers returned, one JSON
-object per line on stdin. Log before dedupe, so a finding two reviewers raise is two
-lines.
+The review's findings live in one record file. The report's findings are printed from
+it, and rule usage is counted from it.
 
-```bash
-bash "$DEV_RULES_ROOT/scripts/log-findings.sh" --skill <skill> --perspective <name>... <rules.sh paths> <<'EOF'
-{"perspective": "design", "severity": "medium", "triage": "accepted", "rules": ["KD-3"]}
-EOF
-```
+1. Before the first triage, create the record once. Keep the printed `RECORD=` path for
+   every later round:
 
-- `--perspective`: each perspective that ran, findings or not.
-- `<rules.sh paths>`: what the reviewers passed to `rules.sh` — `--files-list <FILES>`,
-  the selected paths without any `:line` suffix, or nothing for a plan.
-- `severity`: `critical`, `high`, `medium`, or `low`, as triaged.
-- `triage`: `accepted` (valid and in scope, fixed or not), `rejected` (ignored, judged
-  wrong, or dropped by a skill's validity gate), or `out-of-scope` (including a skill's
-  scope gate).
-- `rules`: the rule IDs, and `.agents/rules/` paths, in the finding's grounds. Leave
-  out spec and perspective paths; `[]` when none remain.
+   ```bash
+   bash "$DEV_RULES_ROOT/scripts/review-record.sh" new --skill <skill> --perspective <name>... <rules.sh paths>
+   ```
 
-On exit 1, fix the lines it names and resend every finding. On any other failure,
-continue and say in the report that the findings were not logged.
+   - `--perspective`: each perspective that ran, findings or not.
+   - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — `--files-list <FILES>`,
+     the selected paths without any `:line` suffix, or nothing for a plan.
+
+2. After each round's triage and dedupe, add that round's findings, one JSON object per
+   line, as the header of `review-record.sh` defines them. A later round adds only
+   findings not already recorded.
+
+   ```bash
+   bash "$DEV_RULES_ROOT/scripts/review-record.sh" add "$RECORD" <<'EOF'
+   {"perspectives": ["design"], "severity": "medium", "location": "app/Main.kt:42", "issue": "<the finding and its fix>", "grounds": ["KD-3"], "triage": "fix"}
+   EOF
+   ```
+
+   - `perspectives`: the reviewers that raised it; several when dedupe merged them.
+   - `location`: `file:line`, or the plan section.
+   - `issue`: the finding and its fix; for a plan, also why it matters.
+   - `triage`: `fix` (fixed, or would be without `--fix`), `report` (valid and in scope,
+     not fixed), `out-of-scope` (the **Out of scope** row), or `ignore` (including a finding a
+     skill's gate drops).
+
+   On exit 1, fix the lines it names and resend the whole round.
+
+3. Print the findings for the report with
+   `bash "$DEV_RULES_ROOT/scripts/review-record.sh" report "$RECORD"`, grouped by
+   severity, or with `report --by-outcome` as Fixed and Remaining. Use its output
+   unchanged.
+
+If the script fails any other way, write the findings into the report yourself in the
+same shape — by severity, or Fixed and Remaining — and say they were not recorded.

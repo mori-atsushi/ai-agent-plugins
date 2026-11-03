@@ -9,12 +9,11 @@ this file.
 
 - Each rule starts with a stable ID, such as `[KD-3]`, and reviewers cite it in a finding's
   grounds.
-- `scripts/review-record.sh` keeps each review's findings in its own JSON file, with the rules
-  each perspective applied, and prints the report's findings from it; any invalid finding
-  rejects the whole round.
-- `review-code` and `review-plan` log their first round's findings with `log-findings.sh`.
+- `review-code` and `review-plan` keep each review's findings in its own JSON record through
+  `scripts/review-record.sh`, which validates each triage round (`fix`, `report`,
+  `out-of-scope`, `ignore`) and prints the report's numbered findings from the record.
 - `scripts/rule-stats.sh` counts, per rule, how often reviews applied and cited it, and how the
-  citing findings were triaged.
+  citing findings were triaged, with project rules grouped by project.
 
 ## [2.0.4] - 2026-11-03
 

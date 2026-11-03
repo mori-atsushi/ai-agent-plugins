@@ -2,7 +2,7 @@
 name: review-plan
 description: "Review an implementation plan before coding. Report only by default. Pass \"--fix\" to apply fixes when the plan is in files. Accept multiple plan paths or ranges. Triggers: \"プランをレビュー\", \"計画をレビュー\", \"plan review\"."
 argument-hint: "[<plan text or file[:line[-end]]>...] [--fix]"
-allowed-tools: Read, Edit, Agent, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/log-findings.sh*)
+allowed-tools: Read, Edit, Agent, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/review-record.sh*)
 ---
 
 # Review Plan Skill
@@ -88,8 +88,8 @@ plan-specific gates:
   in `review-triage.md`. Drop pre-existing issues in unchanged code below High when
   the plan does not mention them.
 
-After the first round only, apply **Log** from the same file with
-`--skill review-plan` and both perspectives.
+Then apply **Record** from the same file with `--skill review-plan` and both
+perspectives.
 
 ## Step 4: Fix — only with `--fix`
 
@@ -103,8 +103,6 @@ there is no file to edit. Do not rewrite the plan in chat. Report only. State th
 
 ## Step 5: Compile the report
 
-Sort surviving findings by each agent's suggested severity, adjusting if needed.
-
 Output format:
 
 ```
@@ -114,14 +112,10 @@ Output format:
 <1–3 sentence overview of the plan and overall quality>
 
 ### Findings
-<All findings sorted by severity — Critical first, Low last.
- Each finding: severity tag, description, why it matters.
- If there are no findings, say "No issues found.">
+<output of `review-record.sh report`>
 
 ### Fixes applied
 <Only with --fix. List what changed in the selected plan files, or "None — --fix had no target
 (plan was inline text / conversation, not files)." Omit this section entirely without
 --fix.>
 ```
-
-Omit severity groups that have no findings.

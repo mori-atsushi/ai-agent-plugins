@@ -79,10 +79,8 @@ plan-specific gates:
   in `review-triage.md`. Drop pre-existing issues in unchanged code below High when
   the plan does not mention them.
 
-After the first round only, apply **Log** from the same file with
-`--skill review-plan` and both perspectives.
-
-Sort survivors by severity, adjusting it when warranted.
+Then apply **Record** from the same file with `--skill review-plan` and both
+perspectives.
 
 On Claude Code, use this plugin's `review-perspective` agent for both reviews. On
 Codex, spawn two read-only subagents directly and wait for both.
@@ -104,8 +102,7 @@ rewrite the plan in chat. Report only. State that `--fix` had no target.
 <1–3 sentence overview of the plan and overall quality>
 
 ### Findings
-<Findings, highest severity first; each gives severity, description, and why it
-matters. If none, say exactly "No issues found.">
+<output of `review-record.sh report`>
 
 ### Fixes applied
 <Only with --fix. List what changed in the selected plan files, or "None — --fix had
