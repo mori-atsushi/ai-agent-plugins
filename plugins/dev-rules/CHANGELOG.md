@@ -9,9 +9,9 @@ this file.
 
 - Each rule starts with a stable ID, such as `[KD-3]`, and reviewers cite it in a finding's
   grounds.
-- `scripts/log-findings.sh` validates a review's triaged findings and appends them, with the
-  rules each perspective applied, to a JSON Lines log; any invalid finding rejects the whole
-  input.
+- `scripts/review-record.sh` keeps each review's findings in its own JSON file, with the rules
+  each perspective applied, and prints the report's findings from it; any invalid finding
+  rejects the whole round.
 - `review-code` and `review-plan` log their first round's findings with `log-findings.sh`.
 - `scripts/rule-stats.sh` counts, per rule, how often reviews applied and cited it, and how the
   citing findings were triaged.
