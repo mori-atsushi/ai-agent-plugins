@@ -9,6 +9,9 @@ this file.
 
 - Each rule starts with a stable ID, such as `[KD-3]`, and reviewers cite it in a finding's
   grounds.
+- `scripts/log-findings.sh` validates a review's triaged findings and appends them, with the
+  rules each perspective applied, to a JSON Lines log; any invalid finding rejects the whole
+  input.
 
 ## [2.0.4] - 2026-11-03
 
