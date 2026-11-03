@@ -66,8 +66,8 @@ scope, steps, and what not to flag.
 perspective applied, in one JSON record written by `scripts/review-record.sh`, and
 print the report's findings from it. Records live in
 `~/.local/state/dev-rules/reviews/` (`$XDG_STATE_HOME` or `$DEV_RULES_REVIEWS` moves
-them) and need `jq`. A finding cites a project rule by its path, plus its ID when it
-has one.
+them) and need `jq`. A finding cites a rule by its ID, or a project rule without IDs by
+its path; `rule-stats.sh` prefixes project rules with the project's name.
 
 `scripts/rule-stats.sh` counts, per rule, the reviews that applied it, the findings
 that cite it, and how they were triaged. Judge only rules applied in many reviews. A

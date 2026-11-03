@@ -10,7 +10,7 @@ this file.
 - Each rule starts with a stable ID, such as `[KD-3]`, and reviewers cite it in a finding's
   grounds.
 - `review-code` and `review-plan` keep each review's findings in its own JSON record through
-  `scripts/review-record.sh`, which validates each triage round (`fix`, `report`,
+  `scripts/review-record.sh`, which validates each triage round (`in-scope`,
   `out-of-scope`, `ignore`) and prints the report's numbered findings from the record.
 - `scripts/rule-stats.sh` counts, per rule, how often reviews applied and cited it, and how the
   citing findings were triaged, with project rules grouped by project.

@@ -49,23 +49,22 @@ it, and rule usage is counted from it.
 
    ```bash
    bash "$DEV_RULES_ROOT/scripts/review-record.sh" add "$RECORD" <<'EOF'
-   {"perspectives": ["design"], "severity": "medium", "location": "app/Main.kt:42", "issue": "<the finding and its fix>", "grounds": ["KD-3"], "triage": "fix"}
+   {"perspectives": ["design"], "severity": "medium", "location": "app/Main.kt:42", "issue": "<the finding and its fix>", "grounds": ["KD-3"], "triage": "in-scope"}
    EOF
    ```
 
    - `perspectives`: the reviewers that raised it; several when dedupe merged them.
    - `location`: `file:line`, or the plan section.
    - `issue`: the finding and its fix; for a plan, also why it matters.
-   - `triage`: `fix` (fixed, or would be without `--fix`), `report` (valid and in scope,
-     not fixed), `out-of-scope` (the **Out of scope** row), or `ignore` (including a finding a
-     skill's gate drops).
+   - `grounds`: as the reviewer cited them.
+   - `triage`: `in-scope`, `out-of-scope` (the **Out of scope** row), or `ignore`
+     (including a finding a skill's gate drops).
 
    On exit 1, fix the lines it names and resend the whole round.
 
-3. Print the findings for the report with
-   `bash "$DEV_RULES_ROOT/scripts/review-record.sh" report "$RECORD"`, grouped by
-   severity, or with `report --by-outcome` as Fixed and Remaining. Use its output
+3. Print the report's findings, grouped by severity, with
+   `bash "$DEV_RULES_ROOT/scripts/review-record.sh" report "$RECORD"`. Use its output
    unchanged.
 
 If the script fails any other way, write the findings into the report yourself in the
-same shape — by severity, or Fixed and Remaining — and say they were not recorded.
+same shape, grouped by severity, and say they were not recorded.

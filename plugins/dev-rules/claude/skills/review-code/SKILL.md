@@ -138,7 +138,8 @@ Go to Step 2 with new findings. Stop after 3 total iterations.
 
 ### Iterations: <N>
 
-<output of `review-record.sh report --by-outcome`>
+### Findings
+<output of `review-record.sh report`>
 
 ### Test / Build
 - ✅ <selectors> passed  (or ❌ <module>: <summary>, or ⏭️ skipped — <reason, e.g. docs-only fixes / no fixes made>)

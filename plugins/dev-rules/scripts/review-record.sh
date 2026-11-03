@@ -10,18 +10,17 @@
 #   review-record.sh add <record> < findings.jsonl
 #       Validates one round of triaged findings, one JSON object per line, and appends
 #       them as the next round. Any invalid line rejects the whole round (exit 1).
-#   review-record.sh report [--by-outcome] <record>
-#       Prints the findings as Markdown: grouped by severity, or with --by-outcome as
-#       Fixed and Remaining.
+#   review-record.sh report <record>
+#       Prints the findings as Markdown, grouped by severity.
 #
 # A finding:
 #   {"perspectives": ["design"], "severity": "medium", "location": "app/Main.kt:42",
-#    "issue": "...", "grounds": ["KD-3", "docs/spec.md"], "triage": "fix"}
-#   perspectives  the perspectives that raised it, one after dedupe
+#    "issue": "...", "grounds": ["KD-3", "docs/spec.md"], "triage": "in-scope"}
+#   perspectives  the perspectives that raised it; several after dedupe
 #   severity      critical | high | medium | low
-#   triage        fix | report (valid and in scope, not fixed) | out-of-scope | ignore
-#   grounds       rule IDs or `.agents/rules/` paths those perspectives applied, and any
-#                 other existing file, such as a spec or the perspective file
+#   triage        in-scope | out-of-scope | ignore
+#   grounds       what the finding cites: rules those perspectives applied (an ID, or the
+#                 path of a rule file without IDs), or other existing files
 #
 # Without jq, nothing is recorded (exit 2).
 
@@ -36,23 +35,12 @@ PLUGIN_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DIR="${DEV_RULES_REVIEWS:-${XDG_STATE_HOME:-$HOME/.local/state}/dev-rules/reviews}"
 ID_PATTERN='^[A-Z][A-Z0-9]*-[0-9][0-9]*$'
 
-# Prints "<citation>\t<key>" for each rule in a rule file. A plugin rule's key is its
-# ID; a project rule's key is qualified by its path (`.agents/rules/a.md#AB-1`) so it
-# cannot collide with a plugin ID. A file without IDs is one rule, keyed by its path.
-# rule-stats.sh relies on this key format.
+# Prints the name a finding cites each rule in a rule file by: its ID, or the file's
+# path when the file has no IDs. rule-stats.sh matches IDs with the same pattern.
 rule_keys() {
-  local rel="${1#"$ROOT"/}" id ids
+  local ids
   ids="$(sed -n 's/^- \[\([A-Z][A-Z0-9]*-[0-9][0-9]*\)\].*/\1/p' "$1")"
-  if [ -z "$ids" ]; then
-    printf '%s\t%s\n' "$rel" "$rel"
-    return
-  fi
-  for id in $ids; do
-    case "$rel" in
-      .agents/rules/*) printf '%s\t%s#%s\n' "$id" "$rel" "$id" ;;
-      *) printf '%s\t%s\n' "$id" "$id" ;;
-    esac
-  done
+  if [ -n "$ids" ]; then printf '%s\n' "$ids"; else printf '%s\n' "${1#"$ROOT"/}"; fi
 }
 
 # Passes problems through, replacing each "FILE <path>" with a problem only when the
@@ -90,10 +78,8 @@ cmd_new() {
 
   applicable="{}"
   for p in "${perspectives[@]}"; do
-    # On a repeated citation the first rule wins, so a project ID cannot shadow a plugin one.
     keys="$("$PLUGIN_ROOT/scripts/rules.sh" --perspective "$p" ${rules_args[@]+"${rules_args[@]}"} |
-      cut -f1 | while IFS= read -r f; do rule_keys "$f"; done |
-      jq -R 'split("\t") | {(.[0]): .[1]}' | jq -sc 'reduce .[] as $k ({}; $k + .)')"
+      cut -f1 | while IFS= read -r f; do rule_keys "$f"; done | jq -R . | jq -sc 'unique')"
     applicable="$(jq -c --arg p "$p" --argjson k "$keys" '. + {($p): $k}' <<<"$applicable")"
   done
 
@@ -135,8 +121,8 @@ cmd_add() {
                 | "perspective \(tojson) did not run (\($applicable | keys | join(", ")))" end),
           (select(has("severity") and (.severity | IN("critical", "high", "medium", "low") | not))
             | "severity \(.severity | tojson) is not critical, high, medium, or low"),
-          (select(has("triage") and (.triage | IN("fix", "report", "out-of-scope", "ignore") | not))
-            | "triage \(.triage | tojson) is not fix, report, out-of-scope, or ignore"),
+          (select(has("triage") and (.triage | IN("in-scope", "out-of-scope", "ignore") | not))
+            | "triage \(.triage | tojson) is not in-scope, out-of-scope, or ignore"),
           (select(has("location") and (.location | type != "string" or length == 0))
             | "location is not a non-empty string"),
           (select(has("issue") and (.issue | type != "string" or length == 0))
@@ -144,7 +130,7 @@ cmd_add() {
           (select(has("grounds")) | (.perspectives // []) as $ps | .grounds
             | if strings_array | not then "grounds is not a non-empty array of strings"
               else .[] | . as $g
-                | select([$ps[] | select(type == "string") | $applicable[.] // {} | has($g)] | any | not)
+                | select([$ps[] | select(type == "string") | $applicable[.] // [] | index($g)] | any | not)
                 | if test($id_pattern) or startswith(".agents/rules/")
                   then "rule \(tojson) is not one that \($ps | join(", ")) applied"
                   else "FILE \(.)" end end)
@@ -169,8 +155,7 @@ cmd_add() {
     | ($r.rounds + 1) as $round
     | $r + {rounds: $round, findings: ($r.findings + (to_entries | map(.value as $f | $f + {
         id: (($r.findings | length) + .key + 1),
-        round: $round,
-        rules: [$f.grounds[] as $g | [$f.perspectives[] | $r.applicable[.][$g] // empty] | first // empty]
+        round: $round
       })))}' > "$tmp"; then
     rm -f "$tmp"
     exit 1
@@ -181,31 +166,20 @@ cmd_add() {
 }
 
 cmd_report() {
-  local by_outcome=false
-  if [ "${1:-}" = "--by-outcome" ]; then by_outcome=true; shift; fi
   local record="${1:?report needs a record path}"
-  jq -r --argjson by_outcome "$by_outcome" '
-    def severity_label: {critical: "🔴 Critical", high: "🟠 High", medium: "🟡 Medium", low: "⚪ Low"}[.];
-    def mark: {critical: "🔴", high: "🟠", medium: "🟡", low: "⚪"}[.];
-    def tag: {fix: "fix", report: "report only", "out-of-scope": "out of scope"}[.];
-    def line($prefix): "- \($prefix)#\(.id) [\(.location)] \(.issue) — _grounds: \(.grounds | join(", "))_";
-    def section($title; $items; $tagged):
-      "### \($title)",
-      (if ($items | length) == 0 then "- None"
-       else $items[] | line("\(.severity | mark) ") + (if $tagged then " (\(.triage | tag))" else "" end) end),
-      "";
-    (.findings | map(select(.triage != "ignore"))
-      | sort_by(.severity as $s | [(["critical", "high", "medium", "low"] | index($s)), .id])) as $shown
+  jq -r '
+    (.findings | map(select(.triage != "ignore"))) as $shown
     | (.findings | map(select(.triage == "ignore") | "#\(.id)")) as $ignored
-    | if $by_outcome then
-        section("Fixed"; $shown | map(select(.triage == "fix")); false),
-        section("Remaining"; $shown | map(select(.triage != "fix")); true)
-      elif ($shown | length) == 0 then "No issues found."
+    | if ($shown | length) == 0 then "No issues found."
       else
-        (["critical", "high", "medium", "low"][] as $s
-          | ($shown | map(select(.severity == $s))) as $items
+        ([["critical", "🔴 Critical"], ["high", "🟠 High"], ["medium", "🟡 Medium"], ["low", "⚪ Low"]][]
+          as [$severity, $label]
+          | ($shown | map(select(.severity == $severity))) as $items
           | select($items | length > 0)
-          | ($s | severity_label), ($items[] | line("") + " (\(.triage | tag))"), "")
+          | $label,
+            ($items[] | "- #\(.id) [\(.location)] \(.issue) — _grounds: \(.grounds | join(", "))_"
+              + (if .triage == "out-of-scope" then " (out of scope)" else "" end)),
+            "")
       end,
     (select($ignored | length > 0) | "Ignored: \($ignored | join(", "))")
   ' "$record"

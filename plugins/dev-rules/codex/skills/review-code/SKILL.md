@@ -130,7 +130,8 @@ round before triage and reuse the same reviewer threads for re-review.
 
 ### Iterations: <N>
 
-<output of `review-record.sh report --by-outcome`>
+### Findings
+<output of `review-record.sh report`>
 
 ### Test / Build
 - ✅ <selectors> passed

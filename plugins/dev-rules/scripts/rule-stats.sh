@@ -6,9 +6,10 @@
 # Usage: rule-stats.sh [<records dir>]   (default: where review-record.sh writes)
 #
 # Prints TSV: rule, applied (reviews that applied it), cited (findings citing it), and
-# those findings by triage: fix, report, out-of-scope, ignore. Every current plugin
-# rule is listed, cited or not, plus any other rule the records name, such as a
-# removed one. A project rule is prefixed with its project's directory name.
+# those findings by triage: in-scope, out-of-scope, ignore. Every current plugin rule is
+# listed, cited or not, plus any other rule the records name, such as a removed one. A
+# project rule is prefixed with its project's directory name; a project ID that reuses
+# a plugin prefix counts as that plugin rule.
 
 set -euo pipefail
 
@@ -22,20 +23,27 @@ DIR="${1:-${DEV_RULES_REVIEWS:-${XDG_STATE_HOME:-$HOME/.local/state}/dev-rules/r
 IDS="$(sed -n 's/^- \[\([A-Z][A-Z0-9]*-[0-9][0-9]*\)\].*/\1/p' "$PLUGIN_ROOT"/rules/*.md |
   jq -R . | jq -sc .)"
 
-find "$DIR" -maxdepth 1 -name '*.json' -exec cat {} + | jq -rs --argjson ids "$IDS" '
-  # A project rule key (`.agents/rules/…`) is only unique within its project.
-  def qualify($project): if startswith(".agents/") then "\($project | split("/") | last):\(.)" else . end;
-  map(.project as $p | {
-    applied: [.applicable[][] | qualify($p)] | unique,
-    findings: [.findings[] | .rules = [.rules[] | qualify($p)]]
+# A plugin rule is an ID with one of the plugin's prefixes, removed numbers included.
+PREFIXES="$(jq -c 'map(split("-")[0]) | unique' <<<"$IDS")"
+
+find "$DIR" -maxdepth 1 -name '*.json' -exec cat {} + | jq -rs --argjson ids "$IDS" --argjson prefixes "$PREFIXES" '
+  # A project rule is only unique within its project.
+  def qualify($project):
+    if test("^[A-Z][A-Z0-9]*-[0-9]+$") and (split("-")[0] as $p | $prefixes | index($p)) then .
+    else "\($project | split("/") | last):\(.)" end;
+  map(.project as $p | .applicable as $applicable | {
+    applied: [$applicable[][] | qualify($p)] | unique,
+    findings: [.findings[]
+      | ([$applicable[.perspectives[]][]] | unique) as $rules
+      | {triage, rules: [.grounds[] | select(. as $g | $rules | index($g)) | qualify($p)]}]
   }) as $reviews
   | [$reviews[].findings[]] as $findings
   | ($ids + [$reviews[].applied[]] + [$findings[].rules[]] | unique
      | sort_by(split("-") | [.[0], (.[1] // "" | tonumber? // 0)])) as $keys
-  | ["rule", "applied", "cited", "fix", "report", "out-of-scope", "ignore"],
+  | ["rule", "applied", "cited", "in-scope", "out-of-scope", "ignore"],
     ($keys[] as $k
       | ($findings | map(select(.rules | index($k)))) as $cited
       | [$k, ($reviews | map(select(.applied | index($k))) | length), ($cited | length)]
-        + (["fix", "report", "out-of-scope", "ignore"]
+        + (["in-scope", "out-of-scope", "ignore"]
            | map(. as $t | $cited | map(select(.triage == $t)) | length)))
   | @tsv'
