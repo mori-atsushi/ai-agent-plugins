@@ -95,6 +95,9 @@ are specific to this skill:
   keep it and report why the finding is wrong. A user message in this conversation is
   not a plan: report a conflict with it, do not override it.
 
+After the first round only, apply **Log** from the same file with
+`--skill review-code` and all five perspectives.
+
 **Without `--fix`**: go straight to the report, no matter what this step found.
 
 **With `--fix`**: if no fixable finding remains, go to the report. Otherwise

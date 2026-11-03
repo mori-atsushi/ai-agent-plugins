@@ -26,3 +26,28 @@ file, and `Read` returns all of it, so none of this may sit inside it.
 `--fix` gates only the *applying*. Without it, triage still runs — it decides what gets
 **reported** rather than **fixed**, so out-of-scope and unfixed findings are still
 listed in full, and the report says what it *would* fix. Make no edits.
+
+## Log
+
+After the first round's triage, log every finding the reviewers returned, one JSON
+object per line on stdin. Log before dedupe, so a finding two reviewers raise is two
+lines.
+
+```bash
+bash "$DEV_RULES_ROOT/scripts/log-findings.sh" --skill <skill> --perspective <name>... <rules.sh paths> <<'EOF'
+{"perspective": "design", "severity": "medium", "triage": "accepted", "rules": ["KD-3"]}
+EOF
+```
+
+- `--perspective`: each perspective that ran, findings or not.
+- `<rules.sh paths>`: what the reviewers passed to `rules.sh` — `--files-list <FILES>`,
+  the selected paths without any `:line` suffix, or nothing for a plan.
+- `severity`: `critical`, `high`, `medium`, or `low`, as triaged.
+- `triage`: `accepted` (valid and in scope, fixed or not), `rejected` (ignored, judged
+  wrong, or dropped by a skill's validity gate), or `out-of-scope` (including a skill's
+  scope gate).
+- `rules`: the rule IDs, and `.agents/rules/` paths, in the finding's grounds. Leave
+  out spec and perspective paths; `[]` when none remain.
+
+On exit 1, fix the lines it names and resend every finding. On any other failure,
+continue and say in the report that the findings were not logged.

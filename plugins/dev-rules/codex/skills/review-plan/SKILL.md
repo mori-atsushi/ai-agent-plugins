@@ -79,6 +79,9 @@ plan-specific gates:
   in `review-triage.md`. Drop pre-existing issues in unchanged code below High when
   the plan does not mention them.
 
+After the first round only, apply **Log** from the same file with
+`--skill review-plan` and both perspectives.
+
 Sort survivors by severity, adjusting it when warranted.
 
 On Claude Code, use this plugin's `review-perspective` agent for both reviews. On

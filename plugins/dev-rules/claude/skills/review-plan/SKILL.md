@@ -2,7 +2,7 @@
 name: review-plan
 description: "Review an implementation plan before coding. Report only by default. Pass \"--fix\" to apply fixes when the plan is in files. Accept multiple plan paths or ranges. Triggers: \"プランをレビュー\", \"計画をレビュー\", \"plan review\"."
 argument-hint: "[<plan text or file[:line[-end]]>...] [--fix]"
-allowed-tools: Read, Edit, Agent, Bash(dev-rules-root)
+allowed-tools: Read, Edit, Agent, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/log-findings.sh*)
 ---
 
 # Review Plan Skill
@@ -87,6 +87,9 @@ plan-specific gates:
 - **Scope** — review the approach in the plan. This **replaces** the out-of-scope row
   in `review-triage.md`. Drop pre-existing issues in unchanged code below High when
   the plan does not mention them.
+
+After the first round only, apply **Log** from the same file with
+`--skill review-plan` and both perspectives.
 
 ## Step 4: Fix — only with `--fix`
 

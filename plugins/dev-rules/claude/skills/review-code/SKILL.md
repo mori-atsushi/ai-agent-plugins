@@ -2,7 +2,7 @@
 name: review-code
 description: "Review code from five perspectives; report-only by default. Pass \"--fix\" to fix and verify. Pass \"branch\" for a branch review or file paths/ranges for direct review; otherwise review uncommitted changes. Triggers: \"polish\", \"ポリッシュ\", \"レビューして修正\", \"review this diff\"."
 argument-hint: "[branch | <file[:line[-end]]>...] [--fix]"
-allowed-tools: Agent, SendMessage, Read, Edit, Write, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/save-diff.sh*), Bash(git diff *), Bash(git log *)
+allowed-tools: Agent, SendMessage, Read, Edit, Write, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/save-diff.sh*), Bash($CLAUDE_PLUGIN_ROOT/scripts/log-findings.sh*), Bash(git diff *), Bash(git log *)
 ---
 
 # Review Code Skill
@@ -100,6 +100,9 @@ are specific to this skill:
   any plan file in the repository; report the departure for the PR. Sounder plan →
   keep it and report why the finding is wrong. A user message in this conversation
   is not a plan: report a conflict with it, do not override it.
+
+After the first round only, apply **Log** from the same file with
+`--skill review-code` and all five perspectives.
 
 **Without `--fix`**: go straight to Step 4 (report) — no matter what Step 2 found.
 

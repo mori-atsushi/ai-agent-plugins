@@ -12,6 +12,7 @@ this file.
 - `scripts/log-findings.sh` validates a review's triaged findings and appends them, with the
   rules each perspective applied, to a JSON Lines log; any invalid finding rejects the whole
   input.
+- `review-code` and `review-plan` log their first round's findings with `log-findings.sh`.
 
 ## [2.0.4] - 2026-11-03
 
