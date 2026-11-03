@@ -16,6 +16,7 @@
 #    "issue": "...", "grounds": ["KD-3", "docs/spec.md"], "triage": "in-scope"}
 #   perspectives  the perspectives that raised it; several after dedupe
 #   severity      critical | high | medium | low
+#   location      file:line, or the plan section
 #   triage        in-scope | out-of-scope | ignore
 #   grounds       what the finding cites: rules those perspectives applied (an ID, or the
 #                 path of a rule file without IDs), or other existing files

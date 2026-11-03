@@ -101,8 +101,8 @@ are specific to this skill:
   keep it and report why the finding is wrong. A user message in this conversation
   is not a plan: report a conflict with it, do not override it.
 
-Then apply **Record** from the same file with `--skill review-code` and all five
-perspectives.
+Then follow `$DEV_RULES_ROOT/references/review-record.md` with
+`--skill review-code` and all five perspectives.
 
 **Without `--fix`**: go straight to Step 4 (report) — no matter what Step 2 found.
 
@@ -139,7 +139,7 @@ Go to Step 2 with new findings. Stop after 3 total iterations.
 ### Iterations: <N>
 
 ### Findings
-<findings, as **Record** step 3 in review-triage.md>
+<findings, as step 3 of review-record.md>
 
 ### Test / Build
 - ✅ <selectors> passed  (or ❌ <module>: <summary>, or ⏭️ skipped — <reason, e.g. docs-only fixes / no fixes made>)
@@ -151,5 +151,5 @@ Go to Step 2 with new findings. Stop after 3 total iterations.
 ## Review Report
 
 ### Findings by severity
-<findings, as **Record** step 3 in review-triage.md>
+<findings, as step 3 of review-record.md>
 ```

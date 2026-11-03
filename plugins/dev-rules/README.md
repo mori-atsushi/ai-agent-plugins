@@ -62,17 +62,15 @@ scope, steps, and what not to flag.
 
 ## Rule usage
 
-`review-code` and `review-plan` keep each review's findings, with the rules each
-perspective applied, in one JSON record written by `scripts/review-record.sh`. Records live in
+`review-code` and `review-plan` record each review's findings in
 `~/.local/state/dev-rules/reviews/` (`$XDG_STATE_HOME` or `$DEV_RULES_REVIEWS` moves
-them) and need `jq`. A finding cites a rule by its ID, or a project rule without IDs by
-its path; `rule-stats.sh` prefixes project rules with the project's name.
+it); recording needs `jq`. `scripts/rule-stats.sh` counts, per rule, the reviews that
+applied it and the findings that cite it, by triage.
 
-`scripts/rule-stats.sh` counts, per rule, the reviews that applied it, the findings
-that cite it, and how they were triaged. Judge only rules applied in many reviews. A
-rule seldom cited is either followed or never triggers: search reviewed code for what
-it forbids to tell which. A rule whose findings are mostly ignored is unclear or too
-strict: read those findings in the records, then reword or remove it.
+Judge only rules applied in many reviews. A rule seldom cited is either followed or
+never triggers: search reviewed code for what it forbids to tell which. A rule whose
+findings are mostly ignored is unclear or too strict: read those findings in the
+records, then reword or remove it.
 
 ## Add project rules
 
