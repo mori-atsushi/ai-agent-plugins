@@ -39,6 +39,8 @@ paths:
 
 ## Function contracts
 
+- **A one-shot result is a `suspend` function, not a `Flow`.** Use `Flow` only where the
+  caller needs multiple values over time.
 - **A getter property is a cheap derived value**; expensive or stateful work
   (including `@Composable`) is a function.
 - **A `suspend` function calls suspend work or implements a suspend API.** Callers

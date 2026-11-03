@@ -5,6 +5,14 @@ this file.
 
 ## [Unreleased]
 
+## [2.0.4] - 2026-11-03
+
+### Changed
+
+- `kotlin-design`: a one-shot result is a `suspend` function; `Flow` only for multiple values.
+- `android`: the DataStore single-source-of-truth rule now covers Room and ViewModel state, and
+  says to write on click and observe the `Flow`.
+
 ## [2.0.3] - 2026-11-03
 
 ### Changed
