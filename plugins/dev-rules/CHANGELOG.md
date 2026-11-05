@@ -12,6 +12,7 @@ this file.
   session cannot skip them. A file every run of a skill must read is inlined when short
   (`perspectives/harness.md`, item 3). The "fix code findings in the code" bullet now
   applies to `review-code` only.
+- `perspectives/harness.md` limits a `SKILL.md`: over 250 lines is Medium, over 400 is High.
 
 ## [2.1.1] - 2026-11-05
 

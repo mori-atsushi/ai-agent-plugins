@@ -67,6 +67,10 @@ growth. **Net growth without a replacement is 🟠 High.** State what to cut.
    is short, because a model may skip a reference it is only pointed to. If inlining makes
    the skill too long, restructure the skill instead of leaving the required reading
    behind a pointer.
+   **Skill length** (raw `wc -l`): a `SKILL.md` over 250 lines is 🟡 Medium (consider
+   splitting or trimming it); over 400 is 🟠 High (restructure it). Inlining must not
+   push a skill over 250. Flag a skill already over a limit only when the change adds
+   lines to it.
 4. **Complexity budget.** Each new exception, branch, priority, or "see also" jump
    returns more value than its instruction cost.
 
