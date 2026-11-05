@@ -3,6 +3,15 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.1.1] - 2026-11-05
+
+### Fixed
+
+- `review-code` and `review-plan` skipped recording in most reviews because the record steps
+  sat in `references/review-record.md`, which the skills only pointed to. The steps are now in
+  each skill (Claude and Codex), the record is created before triage even when nothing is
+  found, and the report shows the record path. Edit the four copies together.
+
 ## [2.1.0] - 2026-11-03
 
 ### Added
