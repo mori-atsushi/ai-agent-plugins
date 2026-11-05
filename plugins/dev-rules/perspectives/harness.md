@@ -119,7 +119,7 @@ Read every instruction as newly proposed. Apply the rules above with these chang
 
 ## Output — extra required sections
 
-Before the findings list, always output:
+Before the `jsonl` block, always output:
 
 ```
 ### Subtraction alternatives
@@ -130,6 +130,8 @@ Before the findings list, always output:
 - <each always-on file touched> <+N/-M>
   → net <±N> lines
 ```
+
+With no findings, still output both sections, then "No issues found."
 
 List at most the **8 highest-severity** findings. Say how many you dropped. Long
 finding lists get skimmed.

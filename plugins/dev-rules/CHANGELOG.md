@@ -3,6 +3,15 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.1.3] - 2026-11-05
+
+### Changed
+
+- Reviewers return their findings as JSON lines in a `jsonl` block
+  (`references/review-contract.md`) instead of a Markdown list, so the review skills
+  record them with `review-record.sh add` without rewriting each one. The skill adds
+  `triage` and merges duplicates.
+
 ## [2.1.2] - 2026-11-05
 
 ### Changed

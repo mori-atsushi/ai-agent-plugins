@@ -49,21 +49,29 @@ file selection, or implementation plan:
    intent. An item tagged `(plan)` shows the intended approach, not a requirement.
 7. Do not edit files. `rules.sh` is the only command you run.
 
-Return each finding as:
+Return findings as one JSON object per line, in a single fenced `jsonl` block at the end
+of your reply, so the caller records them as given. Any prose before the block is
+optional; keep it to what the perspective asks for beyond findings.
 
-- **\<severity\>** **[file:line]** \<the issue, and the fix or principle as the perspective
-  directs\> — _grounds: \`\<ID or path\>\`_ — what justifies the finding, so the caller can
-  verify it: a rule's ID (`KD-3`), else its path; a spec's or perspective file's path.
-  Comma-separate several. A perspective's own format (e.g. `spec.md`'s) overrides this
-  template but keeps the severity prefix below.
+```jsonl
+{"perspectives": ["design"], "severity": "medium", "location": "app/Main.kt:42", "issue": "<the issue, and the fix or principle as the perspective directs>", "grounds": ["KD-3"]}
+```
 
-Prefix every finding with exactly one suggested severity so the caller can triage — the
-caller may adjust it:
+- `perspectives`: one item, your perspective's basename.
+- `severity`: exactly one suggested severity, so the caller can triage; the caller may
+  adjust it:
+  - `critical` — bug, correctness failure, or architectural violation
+  - `high` — significant design or spec problem worth resolving before merge
+  - `medium` — naming, responsibility, or structural improvement worth considering
+  - `low` — minor suggestion with little practical impact
+- `location`: `file:line`, or the plan section.
+- `grounds`: an array of what justifies the finding, so the caller can verify it: a
+  rule's ID (`KD-3`), else its path; a spec's or perspective file's path.
+- No `triage` key; the caller adds it.
 
-- 🔴 **Critical** — bug, correctness failure, or architectural violation
-- 🟠 **High** — significant design or spec problem worth resolving before merge
-- 🟡 **Medium** — naming, responsibility, or structural improvement worth considering
-- ⚪ **Low** — minor suggestion with little practical impact
+A perspective's own format note (e.g. `spec.md`'s) adds content to `issue` or extra
+sections outside the block; it does not change the block. Write every line as valid
+JSON, since a malformed line makes the caller's record reject the round.
 
-Add any extra sections the perspective defines. If you find nothing, say exactly
-"No issues found."
+If you find nothing, say exactly "No issues found." after any sections the perspective
+requires, and omit the block.

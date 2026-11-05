@@ -106,8 +106,11 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
    - `--perspective`: each perspective that ran (design and spec), findings or not.
    - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — nothing, for a plan.
 
-2. After each round's triage and dedupe, add that round's findings, one per line. A
-   later round adds only findings not already recorded. With none, skip `add`.
+2. After each round's triage and dedupe, add that round's findings, one per line.
+   Start from the JSON lines in the reviewers' `jsonl` blocks: merge duplicates into
+   one line listing every `perspectives`, change `severity` where you triaged it
+   differently, and set `triage`. Repair a malformed reviewer line; do not drop its
+   finding. A later round adds only findings not already recorded. With none, skip `add`.
 
    ```bash
    bash "$DEV_RULES_ROOT/scripts/review-record.sh" add "$RECORD" <<'EOF'

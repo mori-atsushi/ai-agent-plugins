@@ -25,8 +25,7 @@ spec update**. State the current and required wording. Do not edit the spec.
 
 ## Output format note
 
-For each finding, cite the spec file and section. Include an input that triggers the
-deviation. Put spec-update suggestions in a separate section:
-
-- **[Spec update suggested — <spec file path>]** State the current text, why the
-  change differs, and the replacement text.
+For each finding, put the spec file and section in `location` and `grounds`, and an
+input that triggers the deviation in `issue`. A spec-update suggestion is a finding
+too: its `issue` starts with `Spec update suggested:` and gives the current text, why
+the change differs, and the replacement text, and `grounds` is the spec file path.
