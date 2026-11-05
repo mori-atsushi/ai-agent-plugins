@@ -63,6 +63,10 @@ growth. **Net growth without a replacement is 🟠 High.** State what to cut.
 2. **One source for each instruction.** Other files cite it rather than copying it.
 3. **Progressive disclosure.** Workflow-only detail sits behind a skill or in
    `references/`, not an always-on file.
+   A file that every run of a skill must read is part of that skill: inline it when it
+   is short, because a model may skip a reference it is only pointed to. If inlining makes
+   the skill too long, restructure the skill instead of leaving the required reading
+   behind a pointer.
 4. **Complexity budget.** Each new exception, branch, priority, or "see also" jump
    returns more value than its instruction cost.
 

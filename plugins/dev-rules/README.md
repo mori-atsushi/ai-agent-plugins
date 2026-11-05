@@ -14,8 +14,8 @@ The implementations are separate where their hosts differ:
 - `codex/skills/` — Codex instructions and metadata
 - `claude/skills/` — Claude Code instructions and its `review-perspective` agent
 
-The rules, perspectives, scripts, review contract, and triage rules live at the plugin
-root and are shared.
+The rules, perspectives, scripts, and review contract live at the plugin root and are
+shared. Triage and recording steps sit in each skill, since a skill must always read them.
 
 ## Rules
 

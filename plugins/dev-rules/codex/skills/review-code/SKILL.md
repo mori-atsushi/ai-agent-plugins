@@ -84,9 +84,25 @@ re-reviews. Without `--fix`, the handles are not needed.
 
 Create the record first (item 1 of **Record the findings**, below), before any triage.
 
-Apply **Triage** and **`--fix`** from
-`$DEV_RULES_ROOT/references/review-triage.md`. Two rules
-are specific to this skill:
+Apply these rules to what the reviewers return:
+
+- **Ignore** a finding that misreads the material, speculates about code outside it, or
+  targets an existing instruction the change does not touch.
+- **Out of scope** (any severity) — the finding names code outside the material, not a
+  file or hunk in it: report, do not fix.
+- **🔴 / 🟠 / 🟡 in scope**: fix.
+- **⚪ Low in scope**: fix when valid and simple; otherwise report.
+- **Dedupe** across reviewers before reporting.
+- **Code findings are fixed in the code, not covered with a comment.** Rename,
+  restructure, simplify, or add a test first. Add a comment when background the code
+  cannot show still needs one, and check it against
+  `$DEV_RULES_ROOT/rules/comments.md` first.
+
+`--fix` gates only the applying. Without it, triage still runs: it decides what gets
+**reported** rather than **fixed**, so out-of-scope and unfixed findings are still listed in full, and
+the report says what it *would* fix. Make no edits.
+
+This skill adds two rules:
 
 - Apply a suggested spec update in this change when it intentionally supersedes the
   recorded behavior; leave it out only when the correct new wording is unclear.
@@ -123,8 +139,8 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
 
    - `issue`: the finding and its fix; for a plan, also why it matters.
    - `grounds`: as the reviewer cited them.
-   - `triage`: `out-of-scope` for the **Out of scope** row of `review-triage.md`;
-     `ignore` for a finding triage or a skill's gate drops.
+   - `triage`: `out-of-scope` for the **Out of scope** bullet above;
+     `ignore` for a finding the **Ignore** bullet or a skill's gate drops.
 
    On exit 1, fix the lines it names and resend the whole round. On success it prints
    the numbers it gave, in input order.

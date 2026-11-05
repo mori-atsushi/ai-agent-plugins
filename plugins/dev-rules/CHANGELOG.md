@@ -3,6 +3,16 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.1.2] - 2026-11-05
+
+### Changed
+
+- `review-harness` records its findings like `review-code` and `review-plan`.
+- The triage rules moved from `references/review-triage.md` into each review skill, so a
+  session cannot skip them. A file every run of a skill must read is inlined when short
+  (`perspectives/harness.md`, item 3). The "fix code findings in the code" bullet now
+  applies to `review-code` only.
+
 ## [2.1.1] - 2026-11-05
 
 ### Fixed

@@ -4,8 +4,7 @@ What a reviewer applying one perspective must do on either supported harness. Th
 calling skill supplies `DEV_RULES_ROOT`, the installed plugin root.
 
 Read by the reviewer itself, so nothing addressed to the skill running the review
-belongs here: that lives in `references/review-triage.md`, which a reviewer never
-opens.
+(triage, recording) belongs here; that lives in each skill.
 
 Given one perspective reference file and the material to review — a diff, direct
 file selection, or implementation plan:

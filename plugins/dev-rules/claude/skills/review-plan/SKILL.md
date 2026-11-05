@@ -80,15 +80,22 @@ Agent(
 
 Create the record first (item 1 of **Record the findings**, below), before any triage.
 
-Apply **Triage** and **`--fix`** from
-`$DEV_RULES_ROOT/references/review-triage.md`. Use two
-plan-specific gates:
+Apply these rules to what the reviewers return:
+
+- **🔴 / 🟠 / 🟡**: fix.
+- **⚪ Low**: fix when valid and simple; otherwise report.
+- **Dedupe** across reviewers before reporting.
+
+`--fix` gates only the applying. Without it, triage still runs: it decides what gets
+**reported** rather than **fixed**, so unfixed findings are still listed in full, and
+the report says what it *would* fix. Make no edits.
+
+This skill adds two gates:
 
 - **Validity** — drop a finding that the plan or concrete code cannot support. Drop
   speculative findings.
-- **Scope** — review the approach in the plan. This **replaces** the out-of-scope row
-  in `review-triage.md`. Drop pre-existing issues in unchanged code below High when
-  the plan does not mention them.
+- **Scope** — review the approach in the plan. Drop pre-existing issues in unchanged
+  code below High when the plan does not mention them.
 
 ### Record the findings
 
@@ -116,8 +123,8 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
 
    - `issue`: the finding and its fix; for a plan, also why it matters.
    - `grounds`: as the reviewer cited them.
-   - `triage`: `out-of-scope` for the **Out of scope** row of `review-triage.md`;
-     `ignore` for a finding triage or a skill's gate drops.
+   - `triage`: `ignore` for a finding the **Validity** or **Scope** gate drops;
+     otherwise `in-scope`.
 
    On exit 1, fix the lines it names and resend the whole round. On success it prints
    the numbers it gave, in input order.
