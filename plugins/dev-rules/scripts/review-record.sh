@@ -130,7 +130,9 @@ cmd_add() {
             | if strings_array | not then "grounds is not a non-empty array of strings"
               else .[] | . as $g
                 | select([$ps[] | select(type == "string") | $applicable[.] // [] | index($g)] | any | not)
-                | if test($id_pattern) or startswith(".agents/rules/")
+                | if startswith("/")
+                  then "grounds \(tojson) is absolute; use a path relative to the project or plugin root"
+                  elif test($id_pattern) or startswith(".agents/rules/")
                   then "rule \(tojson) is not one that \($ps | join(", ")) applied"
                   else "FILE \(.)" end end)
         end' <<<"$line")"

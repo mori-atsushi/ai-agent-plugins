@@ -3,6 +3,13 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.1.5] - 2026-11-05
+
+### Changed
+
+- `review-record.sh add` rejects an absolute path in `grounds`, so the rule added in
+  2.1.4 is enforced rather than only requested.
+
 ## [2.1.4] - 2026-11-05
 
 ### Changed
