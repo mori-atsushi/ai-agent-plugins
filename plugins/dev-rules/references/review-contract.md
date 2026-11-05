@@ -66,7 +66,8 @@ optional; keep it to what the perspective asks for beyond findings.
   - `low` — minor suggestion with little practical impact
 - `location`: `file:line`, or the plan section.
 - `grounds`: an array of what justifies the finding, so the caller can verify it: a
-  rule's ID (`KD-3`), else its path; a spec's or perspective file's path.
+  rule's ID (`KD-3`), else its path; a spec's or perspective file's path. Write a path
+  relative to the project or plugin root, never absolute.
 - No `triage` key; the caller adds it.
 
 A perspective's own format note (e.g. `spec.md`'s) adds content to `issue` or extra

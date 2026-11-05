@@ -3,6 +3,13 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.1.4] - 2026-11-05
+
+### Changed
+
+- Reviewers write a `grounds` path relative to the project or plugin root, so records
+  match across machines (`references/review-contract.md`).
+
 ## [2.1.3] - 2026-11-05
 
 ### Changed
