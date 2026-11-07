@@ -31,6 +31,11 @@ Applies to `@Composable` code only; a path glob cannot narrow further than Kotli
   `HandleBackPress`.
 - [CC-5] **A design-system component has no app or brand prefix** (`DropdownMenu`, not
   `AcmeDropdownMenu`); its package already scopes it.
+- [CC-10] **A composable of our own takes its `Boolean` parameter names from the Material
+  component it resembles**, so the two are interchangeable at a call site: `enabled`,
+  `checked`, `selected`, `isError`, not `isEnabled`. This is a reference vocabulary, not a
+  name Material imposes on us. A parameter with no Material counterpart follows
+  [KC-12](kotlin-convention.md).
 
 ## Recomposition
 

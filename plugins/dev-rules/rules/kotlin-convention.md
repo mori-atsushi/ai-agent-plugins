@@ -1,5 +1,5 @@
 ---
-description: Kotlin idioms — named arguments, val, function form, null checks, @property docs, and file and nested-class layout
+description: Kotlin idioms — named arguments, val, function form, null checks, Boolean names, @property docs, and file and nested-class layout
 perspectives:
   - readability
 paths:
@@ -23,6 +23,18 @@ paths:
 - [KC-5] **No local functions**: extract to a private function or a separate class.
 - [KC-6] **A lambda that only calls a constructor is a constructor reference** (`::Foo`).
 - [KC-7] **A null check uses `if` or a null-safe scope function, not `when`.**
+
+## Naming
+
+- [KC-12] **A `Boolean` property, parameter, or function reads as an assertion.** Any of
+  these forms is fine:
+  - a predicate prefix: `isEmpty`, `hasNext`, `canUndo`, `shouldRetry`
+  - a third-person verb: `handlesBack`, `containsKey(…)`
+  - one of these bare state adjectives or participles: `enabled`, `visible`, `selected`,
+    `checked`, `expanded`, `closed`
+
+  Not a bare noun or an imperative (`editMode`, `refresh`). Any other adjective or
+  participle takes a predicate prefix (`isSilent`, `isRelinkRequired`).
 
 ## Comments
 

@@ -1,5 +1,5 @@
 ---
-description: Architecture, layer boundaries, failure handling, naming scope, symmetry, call-site intent, cohesion, and when and where to share code
+description: Architecture, layer boundaries, failure handling, name accuracy and scope, symmetry, call-site intent, cohesion, and when and where to share code
 perspectives:
   - design
 paths:
@@ -50,11 +50,16 @@ paths:
 
 ## Naming
 
-Spelling and form (abbreviations, filler words) are readability's; this section owns
-whether a name is accurate.
+Spelling and form (abbreviations, filler words, boolean form) are readability's; this
+section owns whether a name is accurate.
 
 - [DS-11] **A name says what its unit computes or does without surrounding context.** A
   shared subexpression's name stays accurate in every branch that uses it.
+- [DS-26] **A name says what its value means or what its unit does, not where it is
+  used**: `hasEditAction`, not `forEditSheet`. A callback named for the event it handles
+  (`onClick`), not for the screen that handles it (`onEditSheet`), is not a use site. For
+  a private function or a local value, which is visible only inside the context it names,
+  this relaxes DS-11: it may name that context.
 - [DS-12] **A function name describes the operation or its result, not only its input.**
 - [DS-13] **A side-effect-free function is named for the value it returns** (`toSummary()`,
   `withBase(…)`), not with a verb that implies mutation (`change…`, `update…`).

@@ -3,6 +3,21 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.1.6] - 2026-11-07
+
+### Added
+
+- `design` [DS-26]: a name says what its value means or what its unit does, not where it
+  is used (`hasEditAction`, not `onEditSheet`); event callbacks such as `onClick`, and a
+  name visible only inside the context it names, are exempt.
+- `kotlin-convention` [KC-12]: a `Boolean` property, parameter, or function reads as an
+  assertion: a predicate prefix (`isEmpty`), a third-person verb (`handlesBack`), or a
+  bare state adjective from a short closed list (`enabled`, `visible`, `closed`); not a
+  bare noun, an imperative, or any other adjective without a prefix.
+- `compose-convention` [CC-10]: a composable of our own takes its `Boolean` parameter
+  names from the Material component it resembles (`enabled`, `checked`, `isError`), as a
+  reference vocabulary distinct from GN-3's framework-imposed names.
+
 ## [2.1.5] - 2026-11-05
 
 ### Changed
