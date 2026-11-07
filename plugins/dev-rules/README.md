@@ -65,7 +65,7 @@ scope, steps, and what not to flag.
 
 `review-code` reviews a directory through the map `scripts/package-map.sh` writes. To
 support a language, add an extractor to `scripts/package-map/`; the script's header
-gives the extractor's format.
+gives the extractor's format, and `tests/dev-rules/package-map.test.sh` checks it.
 
 ## Rule usage
 

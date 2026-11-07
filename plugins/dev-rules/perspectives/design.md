@@ -15,5 +15,5 @@ independent viewpoint. Recommend a better design when the implementation reveals
 With a directory map, review only how the directory divides: whether it holds one
 concern, how its child directories are cut, how the files directly in it are grouped,
 which packages it depends on and which depend on it, a file holding several top-level
-declarations, and a declaration that no other file mentions. Leave each file's own
-content to a file review.
+declarations, and a declaration or exposed member that no other file mentions. Leave
+each file's own content to a file review.

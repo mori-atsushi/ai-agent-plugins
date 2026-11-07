@@ -3,6 +3,18 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.2.3] - 2026-11-07
+
+### Changed
+
+- The directory map lists each top-level class's exposed members — its functions and
+  properties that are not private, protected, or overrides — with how many other files
+  mention each one, so a member nothing outside its file uses shows.
+
+### Added
+
+- `tests/dev-rules/package-map.test.sh` checks the map and its Kotlin extractor.
+
 ## [2.2.2] - 2026-11-07
 
 ### Changed

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Writes a structure map of each named directory, so a design reviewer can judge a
 # whole package without reading every file body: the files directly in it with their
-# line counts and top-level declarations, how often each declaration is referenced
+# line counts, top-level declarations and their exposed members, how often each is referenced
 # from other files, its child directories, and the packages it imports from and is
 # imported by. Prints MAP=<path>, and FILES=<path> listing the files mapped.
 #
@@ -12,6 +12,7 @@
 # tab-separated lines for the files given as arguments:
 #   package <path> <package name>
 #   decl    <path> <kind> <name>
+#   member  <path> <owner> <kind> <name>   (optional) an exposed member of decl <owner>
 #   import  <path> <package>
 # A file with no extractor is listed with its line count only, and the map says so.
 
@@ -64,7 +65,9 @@ map_directory() {
   echo "## Files (${#files[@]})"
   echo
   echo "Each declaration is \`kind name\`, then the number of other files that mention its"
-  echo "name (a word match, so a common name over-counts; 0 is the signal)."
+  echo "name (a word match, so a common name over-counts; 0 is the signal). Indented under a"
+  echo "class or object are its exposed members (not private, protected, or override),"
+  echo "counted the same way."
   echo
   local f lines
   for f in ${files[@]+"${files[@]}"}; do
@@ -78,6 +81,11 @@ map_directory() {
           refs=$({ git grep -l -w -F -e "$name" -- . ":!$f" || true; } | wc -l | tr -d ' ')
           echo "  - $kind $name — $refs"
         fi
+        awk -F'\t' -v p="$f" -v o="$name" '$1 == "member" && $2 == p && $3 == o { print $4 "\t" $5 }' "$facts" |
+          while IFS=$'\t' read -r mkind mname; do
+            refs=$({ git grep -l -w -F -e "$mname" -- . ":!$f" || true; } | wc -l | tr -d ' ')
+            echo "    - $mkind $mname — $refs"
+          done
       done
   done
 
