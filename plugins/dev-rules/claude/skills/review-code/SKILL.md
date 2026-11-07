@@ -100,9 +100,10 @@ Apply these rules to what the reviewers return:
 - **Ignore** a finding that misreads the material, speculates about code outside it, or
   targets an existing instruction the change does not touch.
 - **Out of scope** (any severity) — the finding names code outside the review target
-  (`$DEV_RULES_ROOT/references/review-contract.md` step 3): report, do not fix. A
-  fix to the target may still edit other code as far as that fix requires, such as
-  the imports a move breaks.
+  (`$DEV_RULES_ROOT/references/review-contract.md` step 3), or its fix would change
+  the design of code outside it: report, do not fix. A fix to the target may still
+  make the mechanical edits it forces elsewhere: edits that keep behavior and need
+  no new decision, such as the imports and call sites a move or rename breaks.
 - **🔴 / 🟠 / 🟡 in scope**: fix.
 - **⚪ Low in scope**: fix when valid and simple; otherwise report.
 - **Dedupe** across reviewers before reporting.

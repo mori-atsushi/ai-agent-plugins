@@ -75,7 +75,8 @@ optional; keep it to what the perspective asks for beyond findings.
   - `high` — significant design or spec problem worth resolving before merge
   - `medium` — naming, responsibility, or structural improvement worth considering
   - `low` — minor suggestion with little practical impact
-- `location`: `file:line`, or the plan section.
+- `location`: `file:line`, or the plan section. A finding on a selected directory's
+  structure names that directory.
 - `grounds`: an array of what justifies the finding, so the caller can verify it: a
   rule's ID (`KD-3`), else its path; a spec's or perspective file's path. Write a path
   relative to the project or plugin root, never absolute.

@@ -3,6 +3,16 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.2.1] - 2026-11-07
+
+### Changed
+
+- A finding about a selected directory's structure names that directory as its
+  `location`.
+- `review-code --fix` reports, rather than fixes, a finding whose fix would change the
+  design of code outside the review target; it still makes the mechanical edits a fix
+  forces elsewhere, such as imports and call sites.
+
 ## [2.2.0] - 2026-11-07
 
 ### Added
