@@ -3,6 +3,17 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.2.6] - 2026-11-07
+
+### Changed
+
+- The directory map's preamble spells out what a reference count of 0 and of 1 or
+  more mean, and what to do with each, in place of "Only 0 is a signal". It also says
+  a declaration with no count is private to its file.
+- The harness perspective's readable-instructions item flags a sentence whose subject
+  the reader cannot tell, such as "signal" or "this" with no noun saying what it
+  refers to.
+
 ## [2.2.5] - 2026-11-07
 
 ### Changed

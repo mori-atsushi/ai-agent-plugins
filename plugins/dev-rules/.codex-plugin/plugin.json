@@ -1,6 +1,6 @@
 {
   "name": "dev-rules",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "General coding rules plus code, plan, and harness review workflows for Codex and Claude Code.",
   "author": {
     "name": "Mori Atsushi",

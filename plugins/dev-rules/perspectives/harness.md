@@ -82,7 +82,9 @@ growth. **Net growth without a replacement is 🟠 High.** State what to cut.
    and "as appropriate" alone are insufficient.
 7. **Readable instructions.** Write plain English that people and AI, including a
    non-native speaker, can understand. Keep sentences short and state the required
-   action or conclusion first.
+   action or conclusion first. Each sentence names its subject. A term such as
+   "signal" or "this" with no noun saying what it refers to, or an "it" that could
+   mean two things, is a defect.
 8. **Source of truth.** Link to code, configuration, or a spec instead of copying
    values that can silently go stale.
 9. **Safety.** Permissions, destructive commands, hidden errors, and skipped
