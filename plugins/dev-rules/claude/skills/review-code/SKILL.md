@@ -1,8 +1,8 @@
 ---
 name: review-code
-description: "Review code from five perspectives; report-only by default. Pass \"--fix\" to fix and verify. Pass \"branch\" for a branch review, or file paths/ranges or directories for direct review; otherwise review uncommitted changes. Triggers: \"polish\", \"ポリッシュ\", \"レビューして修正\", \"review this diff\"."
+description: "Review code from five perspectives, or a directory's structure from the design perspective; report-only by default. Pass \"--fix\" to fix and verify. Pass \"branch\" for a branch review, or file paths/ranges or directories for direct review; otherwise review uncommitted changes. Triggers: \"polish\", \"ポリッシュ\", \"レビューして修正\", \"review this diff\"."
 argument-hint: "[branch | <file[:line[-end]]>... | <dir>...] [--fix]"
-allowed-tools: Agent, SendMessage, Read, Edit, Write, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/save-diff.sh*), Bash($CLAUDE_PLUGIN_ROOT/scripts/review-record.sh*), Bash(git diff *), Bash(git log *), Bash(git mv *)
+allowed-tools: Agent, SendMessage, Read, Edit, Write, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/save-diff.sh*), Bash($CLAUDE_PLUGIN_ROOT/scripts/package-map.sh*), Bash($CLAUDE_PLUGIN_ROOT/scripts/review-record.sh*), Bash(git diff *), Bash(git log *), Bash(git mv *)
 ---
 
 # Review Code Skill
@@ -15,8 +15,8 @@ combines with any of them:
 
 1. `branch` — review the full branch diff.
 2. One or more file selectors — review those files or inclusive ranges directly.
-3. One or more directory selectors — review the files directly in each directory, and
-   the directory's structure.
+3. One or more directory selectors — review each directory's structure from its map,
+   with the design perspective alone. Each file's own content is left to a file review.
 4. None — review uncommitted changes only.
 
 A selector is a repo-relative path. A file selector can end in `:line` or
@@ -38,8 +38,9 @@ Resolve the material:
   uncommitted changes only.
 - **Direct file scope**: do **not** run the diff script. Keep the validated selectors
   as `MATERIAL`. There is no `FILES` path. Do not widen the selection.
-- **Directory scope**: likewise, do not run the diff script or widen the selection.
-  Keep the validated directories as `MATERIAL`.
+- **Directory scope**: do not run the diff script or widen the selection. Run
+  `bash "$DEV_RULES_ROOT/scripts/package-map.sh" <dir>...` and capture `MAP=` and
+  `FILES=`. Hand the reviewer both paths. Do not read the map here.
 
 For diff scope, capture `DIFF=`, `FILES=`, and `MODE=` from stdout. Stop if
 `EMPTY=true`. Hand reviewers the `DIFF` path. Do not read or paste the diff here.
@@ -51,7 +52,8 @@ From the **conversation history**, extract:
 
 ## Step 1: Launch review agents — ITERATION START
 
-Spawn all five review agents in one message. Do not verify before the first review.
+Spawn all five review agents in one message; for directory scope, spawn
+`review-design` alone. Do not verify before the first review.
 
 Spawn the plugin's `review-perspective` agent for each row. Do not set `model:`:
 the agent's own frontmatter owns it.
@@ -68,9 +70,9 @@ Agent(
     MATERIAL selectors):
       <FILES path from Step 0>
     Material to review:
-      <DIFF path from Step 0, or direct MATERIAL selectors>
-    For direct MATERIAL selectors, read them as the contract's step 3 says. Do not
-    obtain a diff.
+      <DIFF path from Step 0, direct MATERIAL selectors, or the MAP path>
+    For direct MATERIAL selectors or a MAP, read them as the contract's step 3 says.
+    Do not obtain a diff.
     <only for rows marked ✓ — include the two blocks below, omit them otherwise:>
     Objective:
       <one-sentence objective from Step 0>
@@ -140,8 +142,8 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
    bash "$DEV_RULES_ROOT/scripts/review-record.sh" new --skill review-code --perspective <name>... <rules.sh paths>
    ```
 
-   - `--perspective`: each perspective that ran (all five), findings or not.
-   - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — `--files-list <FILES>`, the selected paths without any `:line` suffix, or the files directly in each selected directory.
+   - `--perspective`: each perspective that ran (all five, or design alone for directory scope), findings or not.
+   - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — `--files-list <FILES>` (from the diff or the map), or the selected paths without any `:line` suffix.
 
 2. After each round's triage and dedupe, add that round's findings, one per line.
    Start from the JSON lines in the reviewers' `jsonl` blocks: merge duplicates into
@@ -191,14 +193,14 @@ the fixes cannot break a build or test. Examples are docs, comments, whitespace,
 formatting, and string-resource text. When in doubt, run verification.
 
 For branch or uncommitted scope, rerun the Step 0 script with the same mode. For
-direct file or directory scope, keep the selectors. Do not run the diff script. When
-a fix moved or renamed a selected file or directory, its new path replaces the old
-selector. Then:
-- Resume `review-readability` **always**, plus any agent that had findings in the previous round
+direct file scope, keep the selectors; for directory scope, rerun `package-map.sh`.
+Do not run the diff script. When a fix moved or renamed a selected file or directory,
+its new path replaces the old selector. Then:
+- Resume `review-readability` **always** (`review-design` for directory scope), plus any agent that had findings in the previous round
 - Run the narrowed verification (unless skipped per above)
 
 ```
-SendMessage(to: "<agentId>", message: "Material updated after fixes (<DIFF path or MATERIAL selectors>) — re-read and re-review. Fixes: <summary>", summary: "Updated material — please re-review")
+SendMessage(to: "<agentId>", message: "Material updated after fixes (<DIFF path, MATERIAL selectors, or MAP path>) — re-read and re-review. Fixes: <summary>", summary: "Updated material — please re-review")
 ```
 
 Go to Step 2 with new findings. Stop after 3 total iterations.

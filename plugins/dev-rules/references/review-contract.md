@@ -7,7 +7,7 @@ Read by the reviewer itself, so nothing addressed to the skill running the revie
 (triage, recording) belongs here; that lives in each skill.
 
 Given one perspective reference file and the material to review — a diff, direct
-file selection, directory selection, or implementation plan:
+file selection, directory map, or implementation plan:
 
 1. Read the perspective file and adopt it as your **rubric**. It and the rule files
    collected in step 2 describe the required state; report only concrete deviations
@@ -16,11 +16,10 @@ file selection, directory selection, or implementation plan:
 2. Collect your rule files: run
    `bash "$DEV_RULES_ROOT/scripts/rules.sh" --perspective <perspective> --files-list <changed-files list>`,
    where `<perspective>` is the perspective filename's basename without `.md` and the
-   changed-files list is the path the prompt names. For a direct file selection, pass
-   the selected paths (without any `:line` suffix) as arguments instead; for a
-   directory selection, the files directly in each directory, not in its
-   subdirectories; on a plan review, pass neither. Each line printed is
-   `<path>\t<description>`: this plugin's general rules appear first, then the
+   changed-files list is the path the prompt names (for a directory map, the list of
+   the files it maps). For a direct file selection, pass the selected paths (without
+   any `:line` suffix) as arguments instead; on a plan review, pass neither. Each line
+   printed is `<path>\t<description>`: this plugin's general rules appear first, then the
    reviewing project's rules (`.agents/rules/`). Use the description to judge relevance before
    opening a file — skip one only when the description makes it clearly inapplicable
    to the material (e.g. a Compose rule and the material touches no `@Composable`);
@@ -41,15 +40,17 @@ file selection, directory selection, or implementation plan:
    | --- | --- | --- |
    | Diff | The changed lines | The diff's context; other code it touches |
    | File selection | Each named file, or its `:line` / `:start-end` range | The rest of the file; code it uses or is used by |
-   | Directory selection | The files directly in each directory, and how it divides into those files and its child directories | The child directories' contents, the parent, and code that imports from the directory |
+   | Directory map | How each mapped directory divides into its files and child directories, and how it depends on other packages | The file bodies, the child directories' contents, and the parent |
 
    - A diff file already carries 30 lines of context around each change: use it as
      the primary source and do not re-read files whose changes are already clear
      from it.
-   - For a directory selection, read each file directly in it. Read a child
-     directory's file names and declarations, not every file body.
+   - For a directory map, read the whole map: it lists every file directly in the
+     directory with its declarations, so you judge the structure from it. Open a file
+     body only to confirm a finding, or where the map says it has no extractor for the
+     file. Say which file bodies you opened.
    - Read reference code only when the target cannot be judged without it. Do not
-     obtain a diff for a file or directory selection.
+     obtain a diff for a file selection or a directory map.
    - A finding may propose a change to reference code when the target's problem
      needs it. Locate it there; the caller treats it as out of scope.
 4. Follow any extra steps the perspective specifies — **even when that means reading

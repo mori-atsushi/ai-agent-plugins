@@ -1,6 +1,6 @@
 ---
 name: review-code
-description: Review code from five perspectives. Report only by default. Pass `--fix` to fix and verify. Pass `branch` for a branch review, or file paths/ranges or directories for direct review. Otherwise review uncommitted changes. Use for code review, polishing, or "レビューして修正".
+description: Review code from five perspectives, or a directory's structure from the design perspective. Report only by default. Pass `--fix` to fix and verify. Pass `branch` for a branch review, or file paths/ranges or directories for direct review. Otherwise review uncommitted changes. Use for code review, polishing, or "レビューして修正".
 ---
 
 # Review Code
@@ -14,8 +14,8 @@ combines with any of them:
 
 1. `branch` — review the full branch diff.
 2. One or more file selectors — review those files or inclusive ranges directly.
-3. One or more directory selectors — review the files directly in each directory, and
-   the directory's structure.
+3. One or more directory selectors — review each directory's structure from its map,
+   with the design perspective alone. Each file's own content is left to a file review.
 4. None — review uncommitted changes only.
 
 A selector is a repo-relative path. A file selector can end in `:line` or
@@ -40,8 +40,9 @@ bash "$DEV_RULES_ROOT/scripts/save-diff.sh" [branch]
   paste the diff in the parent context.
 - For direct file scope, **do not run the diff script**. Keep the validated selectors
   as `MATERIAL`. There is no `FILES` path. Do not widen the selection.
-- **Directory scope**: likewise, do not run the diff script or widen the selection.
-  Keep the validated directories as `MATERIAL`.
+- For directory scope, do not run the diff script or widen the selection. Run
+  `bash "$DEV_RULES_ROOT/scripts/package-map.sh" <dir>...` and record `MAP` and
+  `FILES`. Do not read the map in the parent context.
 - Infer a one-sentence objective. Infer requirements from the conversation and specs,
   then add items from issues, design docs, and plans, each tagged `(plan)`. Omit
   unavailable blocks.
@@ -49,22 +50,24 @@ bash "$DEV_RULES_ROOT/scripts/save-diff.sh" [branch]
 ## 2. Run the first review in parallel
 
 Read `<plugin root>/codex/references/initial-reviewer.md` and apply it to every
-initial reviewer. Spawn five read-only subagents at once. Wait for every result. Do
+initial reviewer. Spawn five read-only subagents at once; for directory scope, spawn
+`review-design` alone. Wait for every result. Do
 not verify before the first review. Give each subagent one perspective and this common
 instruction:
 
 ```text
 `DEV_RULES_ROOT` is <plugin root>. Read
 <plugin root>/references/review-contract.md and follow it. Your perspective is
-<perspective file>; the material is <DIFF path, or direct MATERIAL selectors>. Other
+<perspective file>; the material is <DIFF path, direct MATERIAL selectors, or the MAP
+path>. Other
 reviewers cover the other perspectives, so stay strictly inside yours.
 
 Changed-files list (pass it to rules.sh per the contract; omit this block for
 direct MATERIAL selectors):
 <FILES path>
 
-For direct MATERIAL selectors, read them as the contract's step 3 says. Do not
-obtain a diff.
+For direct MATERIAL selectors or a MAP, read them as the contract's step 3 says. Do
+not obtain a diff.
 
 Objective:
 <objective>
@@ -134,8 +137,8 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
    bash "$DEV_RULES_ROOT/scripts/review-record.sh" new --skill review-code --perspective <name>... <rules.sh paths>
    ```
 
-   - `--perspective`: each perspective that ran (all five), findings or not.
-   - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — `--files-list <FILES>`, the selected paths without any `:line` suffix, or the files directly in each selected directory.
+   - `--perspective`: each perspective that ran (all five, or design alone for directory scope), findings or not.
+   - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — `--files-list <FILES>` (from the diff or the map), or the selected paths without any `:line` suffix.
 
 2. After each round's triage and dedupe, add that round's findings, one per line.
    Start from the JSON lines in the reviewers' `jsonl` blocks: merge duplicates into
@@ -180,12 +183,14 @@ continue to step 4.
 Move or rename a file with `git mv`. After fixes, verify only affected modules. Skip
 verification only for changes that cannot affect a build or test. Examples are docs,
 comments, whitespace, formatting, and string-resource text. For branch or
-uncommitted scope, rerun the diff script with the same `MODE`. For direct file or
-directory scope, keep the selectors. Do not run the script. When a fix moved or
-renamed a selected file or directory, its new path replaces the old selector.
+uncommitted scope, rerun the diff script with the same `MODE`. For direct file
+scope, keep the selectors; for directory scope, rerun `package-map.sh`. Do not run
+the diff script. When a fix moved or renamed a selected file or directory, its new
+path replaces the old selector.
 
-Resume `review-readability` and each agent that found an issue in the prior round.
-Send the updated diff path or original selectors with a short fix summary. Ask the
+Resume `review-readability` (`review-design` for directory scope) and each agent that
+found an issue in the prior round. Send the updated diff path, original selectors, or
+new map path with a short fix summary. Ask the
 agent to re-read and re-review. Wait for results. Return to step 3. Reuse existing
 subagent threads. Do not spawn replacements.
 

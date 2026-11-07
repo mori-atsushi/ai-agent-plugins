@@ -5,7 +5,8 @@
 - `rules/` — general rules (Kotlin, Compose, Android, tests, design, comments, …),
   the single source for both writing and reviewing code
 - `rules` skill — lists the rules that apply to given files, as path and summary
-- `review-code` — five concurrent perspectives for a code change
+- `review-code` — five concurrent perspectives for a code change; a directory's
+  structure, from a generated map, with the design perspective alone
 - `review-plan` — design and specification checks before implementation
 - `review-harness` — checks agent instructions, skills, rules, and hooks
 
@@ -59,6 +60,12 @@ number, and a deleted rule's number stays unused.
 
 `perspectives/` holds only what a reviewer needs beyond the rules: each perspective's
 scope, steps, and what not to flag.
+
+## Directory maps
+
+`review-code` reviews a directory through the map `scripts/package-map.sh` writes. To
+support a language, add an extractor to `scripts/package-map/`; the script's header
+gives the extractor's format.
 
 ## Rule usage
 

@@ -3,6 +3,18 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.2.2] - 2026-11-07
+
+### Changed
+
+- `review-code` reviews a directory through a map from the new
+  `scripts/package-map.sh`, with the design perspective alone, instead of having five
+  reviewers read every file body: on a large directory they read only part of it and
+  did not say so. The map lists each file's top-level declarations, how many other
+  files mention each one, child directories, and the packages the directory imports
+  from and is imported by. A file's own content is left to a file review.
+- Languages are added as extractors in `scripts/package-map/`; Kotlin is the first.
+
 ## [2.2.1] - 2026-11-07
 
 ### Changed
