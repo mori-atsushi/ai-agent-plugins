@@ -1,6 +1,6 @@
 ---
 name: review-perspective
-description: Applies one review perspective, supplied by a review workflow skill, to a code diff, direct file selection, or implementation plan.
+description: Applies one review perspective, supplied by a review workflow skill, to a code diff, direct file or directory selection, or implementation plan.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 color: cyan

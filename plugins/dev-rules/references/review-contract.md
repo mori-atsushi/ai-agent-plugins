@@ -7,7 +7,7 @@ Read by the reviewer itself, so nothing addressed to the skill running the revie
 (triage, recording) belongs here; that lives in each skill.
 
 Given one perspective reference file and the material to review — a diff, direct
-file selection, or implementation plan:
+file selection, directory selection, or implementation plan:
 
 1. Read the perspective file and adopt it as your **rubric**. It and the rule files
    collected in step 2 describe the required state; report only concrete deviations
@@ -17,8 +17,9 @@ file selection, or implementation plan:
    `bash "$DEV_RULES_ROOT/scripts/rules.sh" --perspective <perspective> --files-list <changed-files list>`,
    where `<perspective>` is the perspective filename's basename without `.md` and the
    changed-files list is the path the prompt names. For a direct file selection, pass
-   the selected paths (without any `:line` suffix) as arguments instead; on a plan
-   review, pass neither. Each line printed is
+   the selected paths (without any `:line` suffix) as arguments instead; for a
+   directory selection, the files directly in each directory, not in its
+   subdirectories; on a plan review, pass neither. Each line printed is
    `<path>\t<description>`: this plugin's general rules appear first, then the
    reviewing project's rules (`.agents/rules/`). Use the description to judge relevance before
    opening a file — skip one only when the description makes it clearly inapplicable
@@ -33,14 +34,24 @@ file selection, or implementation plan:
    and the project's `.agents/rules/`, applying their
    `perspectives` / `paths` frontmatter yourself, and say in your report that you did.
    Never skip the step.
-3. Read the material.
+3. Read the material. It has a **review target**, which your findings are about, and
+   **reference** code, read only to judge the target:
+
+   | Material | Review target | Reference |
+   | --- | --- | --- |
+   | Diff | The changed lines | The diff's context; other code it touches |
+   | File selection | Each named file, or its `:line` / `:start-end` range | The rest of the file; code it uses or is used by |
+   | Directory selection | The files directly in each directory, and how it divides into those files and its child directories | The child directories' contents, the parent, and code that imports from the directory |
+
    - A diff file already carries 30 lines of context around each change: use it as
      the primary source and do not re-read files whose changes are already clear
-     from it. Fetch other files only when that context is genuinely insufficient.
-   - For a direct file selection, read each named file. A `:line` or
-     `:start-end` suffix limits the primary review material to that inclusive range;
-     read surrounding or related code only when it is genuinely needed for context.
-     Do not obtain a diff for direct file selections.
+     from it.
+   - For a directory selection, read each file directly in it. Read a child
+     directory's file names and declarations, not every file body.
+   - Read reference code only when the target cannot be judged without it. Do not
+     obtain a diff for a file or directory selection.
+   - A finding may propose a change to reference code when the target's problem
+     needs it. Locate it there; the caller treats it as out of scope.
 4. Follow any extra steps the perspective specifies — **even when that means reading
    files the diff does not touch.** The perspective's own steps win over step 3.
 5. When the material is a plan rather than current code or a diff, treat the

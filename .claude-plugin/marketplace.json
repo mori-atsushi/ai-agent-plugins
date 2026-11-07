@@ -10,7 +10,7 @@
       "name": "dev-rules",
       "source": "./plugins/dev-rules",
       "description": "General coding rules plus code, plan, and harness review workflows.",
-      "version": "2.1.7",
+      "version": "2.2.0",
       "author": {
         "name": "Mori Atsushi",
         "email": "at.sushi.tb@gmail.com"

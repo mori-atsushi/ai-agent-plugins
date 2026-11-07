@@ -3,6 +3,23 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.2.0] - 2026-11-07
+
+### Added
+
+- `review-code` takes directory selectors: the files directly in each directory are the
+  review target, and `design` also reviews how the directory divides into files and
+  child directories. With `--fix`, moves use `git mv`, and a moved or renamed selection
+  is followed at its new path.
+- `review-contract` step 3 defines each material's review target and reference code;
+  findings about reference code are reported as out of scope.
+
+### Changed
+
+- `review-code` stops when the arguments mix scopes (`branch` with a selector, or files
+  with directories); `review-harness` stops on `branch` with files or on a directory,
+  instead of letting `branch` win.
+
 ## [2.1.7] - 2026-11-07
 
 ### Added

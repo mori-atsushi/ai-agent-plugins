@@ -11,3 +11,7 @@ structure, and language or framework idioms.
 Use the objective and specifications to understand the intended outcome. Do not treat
 an implementation plan as the required solution. Review the code from a fresh,
 independent viewpoint. Recommend a better design when the implementation reveals one.
+
+With a directory selection, also review how the directory divides: whether it holds
+one concern, how its child directories are cut, and how the files directly in it are
+grouped. The other perspectives review only the files directly in it.

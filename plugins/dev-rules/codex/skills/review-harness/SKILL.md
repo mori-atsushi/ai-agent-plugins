@@ -18,10 +18,10 @@ independent. Resolve scope in this order:
 2. One or more file selectors — review those files or inclusive ranges directly.
 3. Neither — review uncommitted changes only.
 
-`branch` wins over file selectors. State that the selectors were ignored. A selector
-is a repo-relative path. It can end in `:line` or `:start-end`, for example
-`SKILL.md:42-78`. Validate every path. `--fix` enables fixes. Without it, triage still
-runs. Report what you would fix, but do not edit.
+When `branch` comes with file selectors, or a selector names a directory, stop and say
+so, without reviewing. A selector is a repo-relative file path. It can end in `:line`
+or `:start-end`, for example `SKILL.md:42-78`. Validate every path. `--fix` enables
+fixes. Without it, triage still runs. Report what you would fix, but do not edit.
 
 A change already reviewed against `harness.md` in place still needs this pass. The
 earlier review did not see this edit or its effects.
@@ -57,7 +57,7 @@ Changed-files list (pass it to rules.sh per the contract; omit this block for
 direct MATERIAL selectors):
 <FILES path>
 
-For direct MATERIAL selectors, read the named files and ranges directly. Do not
+For direct MATERIAL selectors, read them as the contract's step 3 says. Do not
 obtain a diff.
 
 Objective:
@@ -72,8 +72,8 @@ Apply these rules to what the reviewers return:
 
 - **Ignore** a finding that misreads the material, speculates about code outside it, or
   targets an existing instruction the change does not touch.
-- **Out of scope** (any severity) — the finding names code outside the material, not a
-  file or hunk in it: report, do not fix.
+- **Out of scope** (any severity) — the finding names code outside the review target
+  (`$DEV_RULES_ROOT/references/review-contract.md` step 3): report, do not fix.
 - **🔴 / 🟠 / 🟡 in scope**: fix.
 - **⚪ Low in scope**: fix when valid and simple; otherwise report.
 - **Dedupe** across reviewers before reporting.

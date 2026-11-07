@@ -1,6 +1,6 @@
 ---
 name: review-code
-description: Review code from five perspectives. Report only by default. Pass `--fix` to fix and verify. Pass `branch` for a branch review or file paths/ranges for direct review. Otherwise review uncommitted changes. Use for code review, polishing, or "レビューして修正".
+description: Review code from five perspectives. Report only by default. Pass `--fix` to fix and verify. Pass `branch` for a branch review, or file paths/ranges or directories for direct review. Otherwise review uncommitted changes. Use for code review, polishing, or "レビューして修正".
 ---
 
 # Review Code
@@ -9,16 +9,20 @@ First resolve `DEV_RULES_ROOT`, this plugin's installation directory. Use
 the source path for this `codex/skills/review-code/SKILL.md` and its plugin-root
 ancestor. Pass the resolved absolute path to every reviewer.
 
-Review code from five perspectives. `branch`, file selectors, and `--fix` are
-independent. Resolve scope in this order:
+Review code from five perspectives. Pick the scope from the arguments; `--fix`
+combines with any of them:
 
 1. `branch` — review the full branch diff.
 2. One or more file selectors — review those files or inclusive ranges directly.
-3. Neither — review uncommitted changes only.
+3. One or more directory selectors — review the files directly in each directory, and
+   the directory's structure.
+4. None — review uncommitted changes only.
 
-`branch` wins over file selectors. State that the selectors were ignored. A selector
-is a repo-relative path. It can end in `:line` or `:start-end`. For example:
-`app/Main.kt`, `app/Main.kt:42`, or `app/Main.kt:42-78`. Validate every path.
+A selector is a repo-relative path. A file selector can end in `:line` or
+`:start-end`, for example `app/Main.kt`, `app/Main.kt:42`, or `app/Main.kt:42-78`; a
+directory selector cannot. Validate every path. When the arguments mix scopes —
+`branch` with a selector, or file selectors with directory selectors — stop and say
+so, without reviewing.
 
 Without `--fix`, review once and report. Do not edit, build, test, or re-review. With
 `--fix`, fix valid in-scope findings. Re-review until clean or after three rounds.
@@ -36,6 +40,8 @@ bash "$DEV_RULES_ROOT/scripts/save-diff.sh" [branch]
   paste the diff in the parent context.
 - For direct file scope, **do not run the diff script**. Keep the validated selectors
   as `MATERIAL`. There is no `FILES` path. Do not widen the selection.
+- **Directory scope**: likewise, do not run the diff script or widen the selection.
+  Keep the validated directories as `MATERIAL`.
 - Infer a one-sentence objective. Infer requirements from the conversation and specs,
   then add items from issues, design docs, and plans, each tagged `(plan)`. Omit
   unavailable blocks.
@@ -57,7 +63,7 @@ Changed-files list (pass it to rules.sh per the contract; omit this block for
 direct MATERIAL selectors):
 <FILES path>
 
-For direct MATERIAL selectors, read the named files and ranges directly. Do not
+For direct MATERIAL selectors, read them as the contract's step 3 says. Do not
 obtain a diff.
 
 Objective:
@@ -88,8 +94,10 @@ Apply these rules to what the reviewers return:
 
 - **Ignore** a finding that misreads the material, speculates about code outside it, or
   targets an existing instruction the change does not touch.
-- **Out of scope** (any severity) — the finding names code outside the material, not a
-  file or hunk in it: report, do not fix.
+- **Out of scope** (any severity) — the finding names code outside the review target
+  (`$DEV_RULES_ROOT/references/review-contract.md` step 3): report, do not fix. A
+  fix to the target may still edit other code as far as that fix requires, such as
+  the imports a move breaks.
 - **🔴 / 🟠 / 🟡 in scope**: fix.
 - **⚪ Low in scope**: fix when valid and simple; otherwise report.
 - **Dedupe** across reviewers before reporting.
@@ -126,7 +134,7 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
    ```
 
    - `--perspective`: each perspective that ran (all five), findings or not.
-   - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — `--files-list <FILES>` or the selected paths without any `:line` suffix.
+   - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — `--files-list <FILES>`, the selected paths without any `:line` suffix, or the files directly in each selected directory.
 
 2. After each round's triage and dedupe, add that round's findings, one per line.
    Start from the JSON lines in the reviewers' `jsonl` blocks: merge duplicates into
@@ -168,10 +176,12 @@ continue to step 4.
 
 ## 4. Fix and re-verify — only with `--fix`
 
-After fixes, verify only affected modules. Skip verification only for changes that
-cannot affect a build or test. Examples are docs, comments, whitespace, formatting,
-and string-resource text. For branch or uncommitted scope, rerun the diff script with
-the same `MODE`. For direct file scope, keep the selectors. Do not run the script.
+Move or rename a file with `git mv`. After fixes, verify only affected modules. Skip
+verification only for changes that cannot affect a build or test. Examples are docs,
+comments, whitespace, formatting, and string-resource text. For branch or
+uncommitted scope, rerun the diff script with the same `MODE`. For direct file or
+directory scope, keep the selectors. Do not run the script. When a fix moved or
+renamed a selected file or directory, its new path replaces the old selector.
 
 Resume `review-readability` and each agent that found an issue in the prior round.
 Send the updated diff path or original selectors with a short fix summary. Ask the

@@ -14,6 +14,6 @@ code to readability.
 
 ## How to review
 
-With a diff, compare tests with production changes. With direct files or ranges,
-assess the selected code and tests. Read related context only when needed. Find the
-added logic. Check that coverage is proportionate.
+With a diff, compare tests with production changes. With direct files, ranges, or a
+directory's files, assess the selected code and its tests. Read related context only
+when needed. Find the added logic. Check that coverage is proportionate.
