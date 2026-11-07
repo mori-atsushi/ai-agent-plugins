@@ -1,0 +1,17 @@
+# Development tooling for the plugins' Python scripts. The scripts themselves need only
+# the standard library of Python 3.9 or later.
+[project]
+name = "ai-agent-plugins"
+version = "0.0.0"
+requires-python = ">=3.9"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["plugins/dev-rules/scripts"]

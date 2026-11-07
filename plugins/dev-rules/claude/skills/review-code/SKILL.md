@@ -2,7 +2,7 @@
 name: review-code
 description: "Review code from five perspectives, or a directory's structure from the design perspective; report-only by default. Pass \"--fix\" to fix and verify. Pass \"branch\" for a branch review, or file paths/ranges or directories for direct review; otherwise review uncommitted changes. Triggers: \"polish\", \"ポリッシュ\", \"レビューして修正\", \"review this diff\"."
 argument-hint: "[branch | <file[:line[-end]]>... | <dir>...] [--fix]"
-allowed-tools: Agent, SendMessage, Read, Edit, Write, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/save-diff.sh*), Bash($CLAUDE_PLUGIN_ROOT/scripts/package-map.sh*), Bash($CLAUDE_PLUGIN_ROOT/scripts/review-record.sh*), Bash(git diff *), Bash(git log *), Bash(git mv *)
+allowed-tools: Agent, SendMessage, Read, Edit, Write, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT/scripts/save-diff.sh*), Bash(python3 $CLAUDE_PLUGIN_ROOT/scripts/package-map.py*), Bash($CLAUDE_PLUGIN_ROOT/scripts/review-record.sh*), Bash(git diff *), Bash(git log *), Bash(git mv *)
 ---
 
 # Review Code Skill
@@ -39,7 +39,7 @@ Resolve the material:
 - **Direct file scope**: do **not** run the diff script. Keep the validated selectors
   as `MATERIAL`. There is no `FILES` path. Do not widen the selection.
 - **Directory scope**: do not run the diff script or widen the selection. Run
-  `bash "$DEV_RULES_ROOT/scripts/package-map.sh" <dir>...` and capture `MAP=` and
+  `python3 "$DEV_RULES_ROOT/scripts/package-map.py" <dir>...` and capture `MAP=` and
   `FILES=`. Hand the reviewer both paths. Do not read the map here.
 
 For diff scope, capture `DIFF=`, `FILES=`, and `MODE=` from stdout. Stop if
@@ -193,7 +193,7 @@ the fixes cannot break a build or test. Examples are docs, comments, whitespace,
 formatting, and string-resource text. When in doubt, run verification.
 
 For branch or uncommitted scope, rerun the Step 0 script with the same mode. For
-direct file scope, keep the selectors; for directory scope, rerun `package-map.sh`.
+direct file scope, keep the selectors; for directory scope, rerun `package-map.py`.
 Do not run the diff script. When a fix moved or renamed a selected file or directory,
 its new path replaces the old selector. Then:
 - Resume `review-readability` **always** (`review-design` for directory scope), plus any agent that had findings in the previous round

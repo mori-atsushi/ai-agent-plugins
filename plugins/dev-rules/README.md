@@ -63,9 +63,10 @@ scope, steps, and what not to flag.
 
 ## Directory maps
 
-`review-code` reviews a directory through the map `scripts/package-map.sh` writes. To
-support a language, add an extractor to `scripts/package-map/`; the script's header
-gives the extractor's format, and `tests/dev-rules/package-map.test.sh` checks it.
+`review-code` reviews a directory through the map `scripts/package-map.py` writes; it
+needs Python 3.9 or later and nothing beyond its standard library. To support a
+language, add an extractor to `scripts/package_map/extractors/`, as that package's
+docstring describes. The tests run with `uv run pytest` from the repository root.
 
 ## Rule usage
 

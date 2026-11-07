@@ -3,6 +3,17 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.2.4] - 2026-11-07
+
+### Changed
+
+- The directory map is written by `scripts/package-map.py` (Python 3.9 or later,
+  standard library only) in place of the shell script, and counts references in one
+  pass over the repository: about 18 seconds became under 2 on a 41-file directory.
+  Ties in the import lists are ordered by name.
+- Constructor properties written on the class's own line are listed as members.
+- The tests are pytest tests under `tests/`, run with `uv run pytest`.
+
 ## [2.2.3] - 2026-11-07
 
 ### Changed

@@ -41,7 +41,7 @@ bash "$DEV_RULES_ROOT/scripts/save-diff.sh" [branch]
 - For direct file scope, **do not run the diff script**. Keep the validated selectors
   as `MATERIAL`. There is no `FILES` path. Do not widen the selection.
 - For directory scope, do not run the diff script or widen the selection. Run
-  `bash "$DEV_RULES_ROOT/scripts/package-map.sh" <dir>...` and record `MAP` and
+  `python3 "$DEV_RULES_ROOT/scripts/package-map.py" <dir>...` and record `MAP` and
   `FILES`. Do not read the map in the parent context.
 - Infer a one-sentence objective. Infer requirements from the conversation and specs,
   then add items from issues, design docs, and plans, each tagged `(plan)`. Omit
@@ -184,7 +184,7 @@ Move or rename a file with `git mv`. After fixes, verify only affected modules. 
 verification only for changes that cannot affect a build or test. Examples are docs,
 comments, whitespace, formatting, and string-resource text. For branch or
 uncommitted scope, rerun the diff script with the same `MODE`. For direct file
-scope, keep the selectors; for directory scope, rerun `package-map.sh`. Do not run
+scope, keep the selectors; for directory scope, rerun `package-map.py`. Do not run
 the diff script. When a fix moved or renamed a selected file or directory, its new
 path replaces the old selector.
 
