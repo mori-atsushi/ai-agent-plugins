@@ -46,10 +46,10 @@ def test_top_level_declarations_keep_kind_and_name():
     ]
 
 
-def test_private_declaration_is_file_private():
+def test_leaves_out_private_declarations():
     facts = extract("private class P\nprivate fun helper() = 1\nfun open() = 1\n")
 
-    assert [d.file_private for d in facts.declarations] == [True, True, False]
+    assert facts.declarations == (Declaration("fun", "open"),)
 
 
 def test_reads_a_one_letter_name():
@@ -97,9 +97,8 @@ def test_members_belong_only_to_their_own_class():
         "}\n"
     )
 
-    first, private, top_level = facts.declarations
+    first, top_level = facts.declarations
     assert first.members == (Member("fun", "one"),)
-    assert private.members == ()
     assert top_level.members == ()
 
 

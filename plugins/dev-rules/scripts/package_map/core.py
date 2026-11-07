@@ -91,8 +91,7 @@ def build_map(repository: Repository, directory: str) -> DirectoryMap:
     references: dict[tuple[str, str], int] = {}
     for entry in files:
         for declaration in _declarations(entry):
-            names = [] if declaration.file_private else [declaration.name]
-            names += [member.name for member in declaration.members]
+            names = [declaration.name] + [member.name for member in declaration.members]
             for name in names:
                 references[(entry.path, name)] = repository.files_mentioning(name, entry.path)
 
@@ -125,8 +124,8 @@ def render(directory_map: DirectoryMap) -> str:
         f"## Files ({len(m.files)})",
         "",
         "Each declaration is `kind name`, then the number of other files that mention its",
-        "name. The count is a word match, so a common name over-counts. A declaration with",
-        "no count is private to its file.",
+        "name. The count is a word match, so a common name over-counts. Private top-level",
+        "declarations are left out, so a file may hold more than it lists.",
         "",
         "- A count of 0: no other file mentions the declaration. It may be unused, or used",
         "  only in its own file. Check the file body before proposing removal or a narrower",
@@ -141,11 +140,8 @@ def render(directory_map: DirectoryMap) -> str:
     for entry in m.files:
         out.append(f"- {entry.path} ({entry.lines} lines)")
         for declaration in _declarations(entry):
-            if declaration.file_private:
-                out.append(f"  - {declaration.kind} {declaration.name}")
-            else:
-                count = m.references[(entry.path, declaration.name)]
-                out.append(f"  - {declaration.kind} {declaration.name} — {count}")
+            count = m.references[(entry.path, declaration.name)]
+            out.append(f"  - {declaration.kind} {declaration.name} — {count}")
             for member in declaration.members:
                 count = m.references[(entry.path, member.name)]
                 out.append(f"    - {member.kind} {member.name} — {count}")

@@ -3,6 +3,14 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.2.7] - 2026-11-07
+
+### Changed
+
+- The directory map leaves out private top-level declarations and their members:
+  they say nothing about how a directory divides or depends. The preamble says a
+  file may hold more declarations than it lists.
+
 ## [2.2.6] - 2026-11-07
 
 ### Changed

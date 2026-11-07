@@ -22,15 +22,10 @@ class Member:
 
 @dataclass(frozen=True)
 class Declaration:
-    """A top-level declaration.
-
-    ``file_private`` marks one that nothing outside its file can use, so the map
-    gives it no reference count.
-    """
+    """A top-level declaration that code outside its file can use."""
 
     kind: str
     name: str
-    file_private: bool = False
     members: tuple[Member, ...] = ()
 
 

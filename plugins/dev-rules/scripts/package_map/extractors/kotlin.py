@@ -1,7 +1,7 @@
 """Kotlin extractor.
 
-Reads the package, imports, top-level declarations, and each top-level class's
-exposed members: a fun, val, or var directly in its body, constructor properties
+Reads the package, imports, top-level declarations that are not private, and each
+such class's exposed members: a fun, val, or var directly in its body, constructor properties
 included, that is not private, protected, or an override. Members are found by
 Kotlin's standard four-space indentation.
 """
@@ -40,7 +40,7 @@ def extract(text: str) -> FileFacts:
         nonlocal owner, members
         if owner is not None:
             declarations[-1] = Declaration(
-                owner.kind, owner.name, owner.file_private, tuple(members)
+                owner.kind, owner.name, tuple(members)
             )
         owner, members = None, []
 
@@ -52,10 +52,10 @@ def extract(text: str) -> FileFacts:
         elif line[:1].isalpha() and line[:1].islower() or line.startswith("@"):
             close_owner()
             declaration = _declaration(line)
-            if declaration is None:
+            if declaration is None or "private" in declaration.kind.split():
                 continue
             declarations.append(declaration)
-            if declaration.kind.endswith(("class", "interface", "object")) and not declaration.file_private:
+            if declaration.kind.endswith(("class", "interface", "object")):
                 owner = declaration
                 members = _inline_properties(line)
         elif owner is not None and line.startswith("    ") and not line[4:5].isspace():
@@ -101,7 +101,7 @@ def _declaration(line: str) -> Optional[Declaration]:
     if split is None:
         return None
     kind, name = split
-    return Declaration(kind, name, file_private="private" in kind.split())
+    return Declaration(kind, name)
 
 
 def _inline_properties(line: str) -> list[Member]:

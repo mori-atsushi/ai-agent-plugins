@@ -77,7 +77,7 @@ def test_renders_declarations_members_and_counts(repo: Path):
     text = render(build_map(Repository(repo), "a/p"))
 
     assert "- a/p/Box.kt (11 lines)\n  - class Box — 1\n    - val width — 0\n    - fun area — 1\n" in text
-    assert "  - private class Hidden\n" in text
+    assert "Hidden" not in text
     assert "  - internal fun unusedHelperXyz — 0\n" in text
     assert "No extractor for: .txt — read those files to judge them.\n" in text
     assert "## Both ways (a dependency cycle)\n\n- b.q\n" in text
