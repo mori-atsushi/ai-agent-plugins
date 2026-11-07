@@ -3,6 +3,15 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.1.7] - 2026-11-07
+
+### Added
+
+- `kotlin-design` Packages [KD-16]–[KD-19]: a package holds one concern, split by domain
+  before technical layer; a parent package holds the abstract procedure and its children
+  the implementation details, which do not depend on the parent; siblings share one
+  level of abstraction; a package holds about 5–20 files.
+
 ## [2.1.6] - 2026-11-07
 
 ### Added

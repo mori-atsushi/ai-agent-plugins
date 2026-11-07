@@ -1,5 +1,5 @@
 ---
-description: Kotlin visibility, value and sealed models, function contracts, and exception handling
+description: Kotlin package structure, visibility, value and sealed models, function contracts, and exception handling
 perspectives:
   - design
 paths:
@@ -7,6 +7,20 @@ paths:
 ---
 
 # Kotlin Design Rules
+
+## Packages
+
+A reader finds a file by predicting its package from what the file does.
+
+- [KD-16] **A package holds one concern and is named for it.** Split by domain or feature
+  before technical layer: `tuplet/`, `selection/`, not `model/`, `util/`, `component/`.
+- [KD-17] **A parent package holds the abstract procedure; its child packages hold the
+  implementation details.** The parent uses its children; a child does not depend on its
+  parent, and packages form no cycle.
+- [KD-18] **Sibling files and packages sit at one level of abstraction**: a package does
+  not mix entry points with the helpers they use.
+- [KD-19] **A package holds about 5–20 files.** Past 20, split it by concern; a package
+  of one or two files merges into its parent unless it is a separate concern.
 
 ## Visibility
 
