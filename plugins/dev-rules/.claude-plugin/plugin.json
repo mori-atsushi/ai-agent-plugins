@@ -1,7 +1,7 @@
 {
   "name": "dev-rules",
   "description": "General coding rules plus code, plan, and harness review workflows for Claude Code.",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "author": {
     "name": "Mori Atsushi",
     "email": "at.sushi.tb@gmail.com"

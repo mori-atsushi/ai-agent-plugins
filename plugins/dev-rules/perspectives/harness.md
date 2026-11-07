@@ -67,6 +67,9 @@ growth. **Net growth without a replacement is 🟠 High.** State what to cut.
    is short, because a model may skip a reference it is only pointed to. If inlining makes
    the skill too long, restructure the skill instead of leaving the required reading
    behind a pointer.
+   The reverse also holds: a procedure that only some runs need, such as the handling of
+   a rare failure or branch, goes in a reference file. The skill keeps one line that names
+   when to read the file and links it, so other runs do not pay for it.
    **Skill length** (raw `wc -l`): a `SKILL.md` over 250 lines is 🟡 Medium (consider
    splitting or trimming it); over 400 is 🟠 High (restructure it). Inlining must not
    push a skill over 250. Flag a skill already over a limit only when the change adds

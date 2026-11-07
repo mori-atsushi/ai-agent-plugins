@@ -3,6 +3,14 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.2.9] - 2026-11-07
+
+### Changed
+
+- The harness perspective's progressive-disclosure rule also covers the reverse case: a
+  procedure that only some runs of a skill need, such as handling a rare failure, goes in
+  a reference file that the skill links from one line naming the condition.
+
 ## [2.2.8] - 2026-11-07
 
 ### Fixed
