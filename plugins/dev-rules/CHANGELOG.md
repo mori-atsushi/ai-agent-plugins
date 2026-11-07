@@ -3,6 +3,14 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.2.5] - 2026-11-07
+
+### Changed
+
+- The directory map's preamble says a reference count of 1 or more is not evidence a
+  name could be private: only 0 is a signal. A design reviewer had proposed narrowing
+  names that other files use.
+
 ## [2.2.4] - 2026-11-07
 
 ### Changed

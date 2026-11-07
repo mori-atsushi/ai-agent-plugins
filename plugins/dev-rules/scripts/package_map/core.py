@@ -125,8 +125,10 @@ def render(directory_map: DirectoryMap) -> str:
         f"## Files ({len(m.files)})",
         "",
         "Each declaration is `kind name`, then the number of other files that mention its",
-        "name (a word match, so a common name over-counts; 0 is the signal). Indented under a",
-        "class or object are its exposed members (not private, protected, or override),",
+        "name (a word match, so a common name over-counts). Only 0 is a signal. A count of 1",
+        "or more means another file mentions the name, usually because it uses it, so it is",
+        "not evidence the name could be private. Indented under a class or object are its",
+        "exposed members (not private, protected, or override),",
         "counted the same way.",
         "",
     ]
