@@ -106,10 +106,10 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
    every later round:
 
    ```bash
-   bash "$DEV_RULES_ROOT/scripts/review-record.sh" new --skill review-plan --perspective <name>... <rules.sh paths>
+   bash "$DEV_RULES_ROOT/scripts/review-record.sh" new --skill review-plan --perspective <name> [--perspective <name>]... <rules.sh paths>
    ```
 
-   - `--perspective`: each perspective that ran (design and spec), findings or not.
+   - `--perspective`: one per perspective that ran (design and spec), findings or not.
    - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — nothing, for a plan.
 
 2. After each round's triage and dedupe, add that round's findings, one per line.

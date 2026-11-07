@@ -3,7 +3,7 @@
 # live in $DEV_RULES_REVIEWS, default ${XDG_STATE_HOME:-~/.local/state}/dev-rules/reviews.
 #
 # Usage:
-#   review-record.sh new --skill <name> --perspective <name>... [--files-list <file>] [<path>...]
+#   review-record.sh new --skill <name> --perspective <name> [--perspective <name>]... [--files-list <file>] [<path>...]
 #       Creates a record holding the rules each perspective applies (rules.sh for the
 #       given files) and prints RECORD=<path>.
 #   review-record.sh add <record> < findings.jsonl
@@ -37,36 +37,70 @@ ID_PATTERN='^[A-Z][A-Z0-9]*-[0-9][0-9]*$'
 # Prints the name a finding cites each rule in a rule file by: its ID, or the file's
 # path when the file has no IDs. rule-stats.sh matches IDs with the same pattern.
 rule_keys() {
-  local ids
-  ids="$(sed -n 's/^- \[\([A-Z][A-Z0-9]*-[0-9][0-9]*\)\].*/\1/p' "$1")"
-  if [ -n "$ids" ]; then printf '%s\n' "$ids"; else printf '%s\n' "${1#"$ROOT"/}"; fi
+  if has_rule_ids "$1"; then
+    sed -n 's/^- \[\([A-Z][A-Z0-9]*-[0-9][0-9]*\)\].*/\1/p' "$1"
+  else
+    printf '%s\n' "${1#"$ROOT"/}"
+  fi
 }
 
-# Passes problems through, replacing each "FILE <path>" with a problem only when the
-# path exists in neither the project nor the plugin.
+# Whether the rule file lists rules under IDs, so a finding cites them by ID.
+has_rule_ids() {
+  grep -q '^- \[[A-Z][A-Z0-9]*-[0-9][0-9]*\]' "$1"
+}
+
+# Whether the file at this path, relative to the project or absolute, is a rule file:
+# one in the project's .agents/rules/ or the plugin's rules/.
+is_rule_file() {
+  case "$1" in
+    .agents/rules/*.md | "$PLUGIN_ROOT"/rules/*.md) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+# Prints the path a ground names, in the project or else the plugin; nothing when
+# neither has it.
+resolve_ground() {
+  if [ -e "$1" ]; then
+    echo "$1"
+  elif [ -e "$PLUGIN_ROOT/$1" ]; then
+    echo "$PLUGIN_ROOT/$1"
+  fi
+}
+
+# Passes problems through, replacing each "FILE <perspectives>\t<path>" — a cited path
+# that is not an applied rule — with a problem when the path exists in neither the project
+# nor the plugin, or is a rule file those perspectives did not apply.
 check_files() {
-  local p g
-  while IFS= read -r p; do
-    case "$p" in
+  local line perspectives ground file
+  while IFS= read -r line; do
+    case "$line" in
       "FILE "*)
-        g="${p#FILE }"
-        if [ ! -e "$g" ] && [ ! -e "$PLUGIN_ROOT/$g" ]; then
-          echo "grounds \"$g\" is neither a rule nor an existing file"
+        perspectives="${line#FILE }"
+        perspectives="${perspectives%%$'\t'*}"
+        ground="${line#*$'\t'}"
+        file="$(resolve_ground "$ground")"
+        if [ -z "$file" ]; then
+          echo "grounds \"$ground\" is neither a rule nor an existing file"
+        elif is_rule_file "$file" && has_rule_ids "$file"; then
+          echo "grounds \"$ground\" is a rule file with IDs; cite the ID of a rule in it that $perspectives applied, not its path"
+        elif is_rule_file "$file"; then
+          echo "rule \"$ground\" is not one that $perspectives applied"
         fi ;;
-      ?*) echo "$p" ;;
+      ?*) echo "$line" ;;
     esac
   done
 }
 
 cmd_new() {
-  local skill="" perspectives=() rules_args=() p applicable keys
+  local skill="" perspectives=() rules_args=() paths=() p applicable keys
   while [ $# -gt 0 ]; do
     case "$1" in
       --skill) skill="${2:?--skill needs a name}"; shift 2 ;;
       --perspective) perspectives+=("${2:?--perspective needs a name}"); shift 2 ;;
       --files-list) rules_args+=(--files-list "${2:?--files-list needs a file}"); shift 2 ;;
       -*) echo "Unknown option: $1" >&2; exit 1 ;;
-      *) rules_args+=("$1"); shift ;;
+      *) rules_args+=("$1"); paths+=("$1"); shift ;;
     esac
   done
   [ -n "$skill" ] || { echo "review-record: --skill is required" >&2; exit 1; }
@@ -74,6 +108,12 @@ cmd_new() {
 
   ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
   cd "$ROOT"
+  for p in ${paths[@]+"${paths[@]}"}; do
+    [ -e "$p" ] || {
+      echo "review-record: no file or directory \"$p\"; give each perspective its own --perspective" >&2
+      exit 1
+    }
+  done
 
   applicable="{}"
   for p in "${perspectives[@]}"; do
@@ -132,9 +172,9 @@ cmd_add() {
                 | select([$ps[] | select(type == "string") | $applicable[.] // [] | index($g)] | any | not)
                 | if startswith("/")
                   then "grounds \(tojson) is absolute; use a path relative to the project or plugin root"
-                  elif test($id_pattern) or startswith(".agents/rules/")
+                  elif test($id_pattern)
                   then "rule \(tojson) is not one that \($ps | join(", ")) applied"
-                  else "FILE \(.)" end end)
+                  else "FILE \($ps | join(", "))\t\(.)" end end)
         end' <<<"$line")"
       problems="$(check_files <<<"$problems")"
     fi

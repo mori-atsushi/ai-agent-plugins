@@ -134,10 +134,10 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
    every later round:
 
    ```bash
-   bash "$DEV_RULES_ROOT/scripts/review-record.sh" new --skill review-code --perspective <name>... <rules.sh paths>
+   bash "$DEV_RULES_ROOT/scripts/review-record.sh" new --skill review-code --perspective <name> [--perspective <name>]... <rules.sh paths>
    ```
 
-   - `--perspective`: each perspective that ran (all five, or design alone for directory scope), findings or not.
+   - `--perspective`: one per perspective that ran (all five, or design alone for directory scope), findings or not.
    - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — `--files-list <FILES>` (from the diff or the map), or the selected paths without any `:line` suffix.
 
 2. After each round's triage and dedupe, add that round's findings, one per line.

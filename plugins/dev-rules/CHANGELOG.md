@@ -3,6 +3,19 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.2.8] - 2026-11-07
+
+### Fixed
+
+- `review-record.sh new` stops when a path argument does not exist, and says to give
+  each perspective its own `--perspective`. `--perspective design spec` had recorded
+  `spec` as a path without a word. The review skills write the usage as
+  `--perspective <name> [--perspective <name>]...`.
+- `review-record.sh add` says to cite rule IDs when a finding cites the path of a
+  rule file that has them, in place of "is not one that ... applied". A plugin rule
+  file cited by path, such as `rules/general.md`, was accepted as an existing file;
+  it now gets the same message.
+
 ## [2.2.7] - 2026-11-07
 
 ### Changed
