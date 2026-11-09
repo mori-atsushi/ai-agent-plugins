@@ -11,6 +11,13 @@ boundaries, whether a name is accurate, and sharing code. `test` owns test-speci
 
 Read **all** collected rule files. They are context, not the change.
 
+## When the material is a plan
+
+Review the identifiers, file names, and structure the plan proposes (variable,
+function, class, and file names; their spelling and form) against the collected rules,
+as if they were already written. Name the proposed identifier in `issue` and give the
+corrected one. Skip what the plan leaves open; do not invent names for it.
+
 ## What NOT to flag
 
 - Matters no rule file covers

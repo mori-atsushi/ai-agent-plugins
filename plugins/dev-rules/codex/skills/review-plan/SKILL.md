@@ -36,15 +36,16 @@ Extract a one-sentence objective. Extract concrete requirements and design decis
 ## 2. Run focused reviews in parallel
 
 Read `<plugin root>/codex/references/initial-reviewer.md` and apply it to every
-initial reviewer. Spawn two read-only subagents at once. Wait for both. Give each the
+initial reviewer. Spawn three read-only subagents at once. Wait for all three. Give each the
 plan, objective, and requirements. For file selectors, give the selectors instead of
-copying content. Tell agents to read them directly. Keep handles only until both
+copying content. Tell agents to read them directly. Keep handles only until all
 results return.
 
 | Label | Perspective file |
 | --- | --- |
 | `review-design` | `<plugin root>/perspectives/design.md` |
 | `review-spec` | `<plugin root>/perspectives/spec.md` |
+| `review-readability` | `<plugin root>/perspectives/readability.md` |
 
 Use this prompt, substituting the perspective file path:
 
@@ -67,8 +68,8 @@ Plan:
 <full plan text>
 ```
 
-On Claude Code, use this plugin's `review-perspective` agent for both reviews. On
-Codex, spawn two read-only subagents directly and wait for both.
+On Claude Code, use this plugin's `review-perspective` agent for all three reviews. On
+Codex, spawn three read-only subagents directly and wait for all three.
 
 ## 3. Triage
 
@@ -103,7 +104,7 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
    bash "$DEV_RULES_ROOT/scripts/review-record.sh" new --skill review-plan --perspective <name> [--perspective <name>]... <rules.sh paths>
    ```
 
-   - `--perspective`: one per perspective that ran (design and spec), findings or not.
+   - `--perspective`: one per perspective that ran (design, spec, and readability), findings or not.
    - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — nothing, for a plan.
 
 2. After each round's triage and dedupe, add that round's findings, one per line.

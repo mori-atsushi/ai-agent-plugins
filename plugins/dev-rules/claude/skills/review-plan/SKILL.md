@@ -8,7 +8,7 @@ allowed-tools: Read, Edit, Agent, Bash(dev-rules-root), Bash($CLAUDE_PLUGIN_ROOT
 # Review Plan Skill
 
 Set `DEV_RULES_ROOT` by running `dev-rules-root` before launching
-reviewers. Pass the resulting absolute path to both reviewers.
+reviewers. Pass the resulting absolute path to all three reviewers.
 
 Review an implementation plan before coding. Find design and correctness issues while
 they are cheap to fix. `--fix` is independent of the plan argument. This skill has no
@@ -42,8 +42,8 @@ From the plan text, extract:
 
 ## Step 2: Launch agents in parallel
 
-Both reviews use the plugin's `review-perspective` agent. They differ only by
-perspective file. Spawn both in one message. For inline plans, paste the full text.
+The three reviews use the plugin's `review-perspective` agent. They differ only by
+perspective file. Spawn all three in one message. For inline plans, paste the full text.
 For file selectors, give the selectors. Tell the reviewer to read them directly. Do
 not obtain a diff.
 
@@ -75,6 +75,7 @@ Agent(
 |---|---------|-----------------------|
 | 1 | `review-design` | `<plugin root>/perspectives/design.md` |
 | 2 | `review-spec`   | `<plugin root>/perspectives/spec.md` |
+| 3 | `review-readability` | `<plugin root>/perspectives/readability.md` |
 
 ## Step 3: Triage findings
 
@@ -109,7 +110,7 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
    bash "$DEV_RULES_ROOT/scripts/review-record.sh" new --skill review-plan --perspective <name> [--perspective <name>]... <rules.sh paths>
    ```
 
-   - `--perspective`: one per perspective that ran (design and spec), findings or not.
+   - `--perspective`: one per perspective that ran (design, spec, and readability), findings or not.
    - `<rules.sh paths>`: what the reviewers passed to `rules.sh` — nothing, for a plan.
 
 2. After each round's triage and dedupe, add that round's findings, one per line.

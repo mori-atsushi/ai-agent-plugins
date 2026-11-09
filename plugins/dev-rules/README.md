@@ -7,7 +7,7 @@
 - `rules` skill — lists the rules that apply to given files, as path and summary
 - `review-code` — five concurrent perspectives for a code change; a directory's
   structure, from a generated map, with the design perspective alone
-- `review-plan` — design and specification checks before implementation
+- `review-plan` — design, specification, and naming-convention checks before implementation
 - `review-harness` — checks agent instructions, skills, rules, and hooks
 
 The implementations are separate where their hosts differ:

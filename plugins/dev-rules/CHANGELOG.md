@@ -3,6 +3,14 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.3.0] - 2026-11-09
+
+### Changed
+
+- `review-plan` also runs the readability perspective, so the identifiers and file
+  names a plan proposes are checked against the convention rules before coding. The
+  readability perspective has a section for plan material.
+
 ## [2.2.9] - 2026-11-07
 
 ### Changed
