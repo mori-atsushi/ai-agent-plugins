@@ -25,7 +25,8 @@ spec update**. State the current and required wording. Do not edit the spec.
 
 ## Output format note
 
-For each finding, put the spec file and section in `location` and `grounds`, and an
-input that triggers the deviation in `issue`. A spec-update suggestion is a finding
-too: its `issue` starts with `Spec update suggested:` and gives the current text, why
-the change differs, and the replacement text, and `grounds` is the spec file path.
+For each finding, put the spec file and section in `location`, the spec file path alone
+in `grounds`, and an input that triggers the deviation in `issue`. A spec-update
+suggestion is a finding too, grounded the same way: its `issue` starts with
+`Spec update suggested:` and gives the current text, why the change differs, and the
+replacement text.

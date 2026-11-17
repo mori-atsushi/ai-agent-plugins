@@ -78,9 +78,12 @@ optional; keep it to what the perspective asks for beyond findings.
   - `low` — minor suggestion with little practical impact
 - `location`: `file:line`, or the plan section. A finding on a selected directory's
   structure names that directory.
-- `grounds`: an array of what justifies the finding, so the caller can verify it: a
-  rule's ID (`KD-3`), else its path; a spec's or perspective file's path. Write a path
-  relative to the project or plugin root, never absolute.
+- `grounds`: a non-empty array of what justifies the finding, so the caller can verify
+  it. Each entry is the ID (`KD-3`) of a rule `rules.sh` collected for you — a rule file
+  with `- [KD-3]` lines is cited by those IDs, never by its path — or the path of a
+  collected rule file without IDs, a spec, or your perspective file when nothing else
+  backs the finding. Write a path relative to the project or plugin root, never
+  absolute, without `#section`; never a label or free text.
 - No `triage` key; the caller adds it.
 
 A perspective's own format note (e.g. `spec.md`'s) adds content to `issue` or extra

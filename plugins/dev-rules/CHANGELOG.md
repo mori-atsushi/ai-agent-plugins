@@ -3,6 +3,16 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.3.2] - 2026-11-17
+
+### Changed
+
+- The review skills' recording step lists what `review-record.sh add` accepts in
+  `grounds`, and the review contract and spec perspective tell reviewers to cite the
+  same: a rule ID rather than the path of a rule file with IDs, a path without
+  `#section`, and the perspective file when nothing else backs a finding — never an
+  empty array, a label, or free text.
+
 ## [2.3.1] - 2026-11-17
 
 ### Changed

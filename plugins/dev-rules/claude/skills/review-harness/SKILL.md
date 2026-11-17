@@ -122,7 +122,17 @@ were applied. The header of `scripts/review-record.sh` defines a finding's field
    ```
 
    - `issue`: the finding and its fix; for a plan, also why it matters.
-   - `grounds`: as the reviewer cited them.
+   - `grounds`: as the reviewer cited them, repaired to what `add` accepts — a non-empty
+     array whose every entry is one of:
+     - the ID of a rule one of the finding's `perspectives` applied (the record's
+       `applicable` lists them per perspective); a rule file with `- [KD-3]` lines is
+       cited by those IDs, never by its path
+     - the path of an applied rule file that has no IDs
+     - the path of another existing file, relative to the project or plugin root and
+       without `#section`: a spec, or `perspectives/<name>.md` when no rule or spec
+       backs the finding
+
+     An empty array, a label, a free-text reason, or an absolute path is rejected.
    - `triage`: `out-of-scope` for the **Out of scope** bullet above;
      `ignore` for a finding the **Ignore** bullet or a skill's gate drops.
 
