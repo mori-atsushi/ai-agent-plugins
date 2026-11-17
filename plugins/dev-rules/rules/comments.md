@@ -24,12 +24,13 @@ perspectives:
   and preconditions the caller must meet. Usually that is no comment or one line. A
   comment that walks through branches, edge cases, or steps the body makes plain is
   too long; when the code is hard to follow, simplify the code instead.
-- [CM-6] **A documentation comment that exists has a summary.** Documenting only a property
-  or a return value is not enough.
+- [CM-6] **A documentation comment that exists opens with a summary of what the code does
+  in the normal case.** A comment on only a property, a return value, or the `null` case
+  is not enough. Write no summary that only restates the name.
 - [CM-7] **A function whose purpose is an action, and that also returns a value, documents
   that value.**
-- [CM-8] **A `null` return or nullable property documents what `null` means** when the name
-  or type does not make it obvious.
+- [CM-8] **A `null` return or nullable property says when it is `null`**, in addition to the
+  summary, unless the name or type makes that obvious.
 - [CM-9] **A documentation comment describes its own type, not its callers.** Naming a
   related type is fine; a list of callers goes stale.
 

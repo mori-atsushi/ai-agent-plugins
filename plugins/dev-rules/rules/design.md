@@ -41,9 +41,8 @@ paths:
   failure propagates.
 - [DS-9] **An expected failure is converted where it occurs.** Its data-layer owner catches
   only the expected exception type and exposes the outcome through its API: `null`
-  or `false` only when that value has a clear, documented meaning, otherwise a
-  sealed type or enum. UI and use cases do not catch lower-layer exceptions to invent
-  fallback values.
+  or `false` when the caller needs no cause, otherwise a sealed type or enum. UI and use
+  cases do not catch lower-layer exceptions to invent fallback values.
 - [DS-10] **Broad handlers do not hide unrelated failures.** Avoid catching `Throwable` or
   `Exception`, and filter a stream's error handler to the expected upstream failure,
   rethrowing the rest. With no useful recovery, propagate.

@@ -3,6 +3,16 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.3.1] - 2026-11-17
+
+### Changed
+
+- DS-9 prefers `null` or `false` for an expected failure when the caller needs no cause,
+  and a sealed type or enum only when callers act on the cause.
+- CM-6 and CM-8: a documentation comment opens with a normal-case summary, a `null` return
+  or nullable property says when it is `null`, and a summary that only restates the name
+  is not written.
+
 ## [2.3.0] - 2026-11-09
 
 ### Changed
