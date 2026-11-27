@@ -108,6 +108,8 @@ growth. **Net growth without a replacement is 🟠 High.** State what to cut.
   with it
 - Missing coverage of a case that has never come up — the harness records what
   actually went wrong, not everything that could
+- A marker that records when a document was last reviewed, such as a `reviewed:`
+  stamp, left unchanged by an edit — the marker records a review, not an edit
 - A harness-neutral mirror's wording differing from its tool-specific counterpart —
   only the shared *behavior* has to match
 

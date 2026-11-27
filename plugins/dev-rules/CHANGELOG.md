@@ -3,6 +3,24 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.3.3] - 2026-11-28
+
+### Changed
+
+- SM-3 (every abstraction provides a current benefit) moves to the design rules as
+  DS-27, since reviews triaged it as a design judgment. SM-2 keeps its sentence on
+  removing an uncalled capability.
+- The design perspective requires a finding that goes against a recorded decision to
+  name the decision and give a concrete reason the alternative is better, and gains a
+  "What NOT to flag" section for an alternative that is only different or optional.
+- `review-code` ignores a finding when the plan is sounder only after writing the
+  concrete reason the plan's choice is better.
+- The test perspective says what a missing-test finding and a duplicate-test finding
+  must show.
+- The spec perspective leaves test coverage of specified behavior to the test
+  perspective.
+- The harness perspective does not flag a review marker left unchanged by an edit.
+
 ## [2.3.2] - 2026-11-17
 
 ### Changed

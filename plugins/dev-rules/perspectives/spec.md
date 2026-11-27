@@ -11,14 +11,16 @@ behavior.
 If the change intentionally differs from an outdated or incomplete spec, **propose a
 spec update**. State the current and required wording. Do not edit the spec.
 
+Whether a specified behavior has a test, and whether a test is the right one, belongs
+to `test`. Do not raise a missing or weak test here.
+
 ## How to review
 
 1. Identify the specs relevant to the change, and read them.
 2. Trace typical inputs first. Then trace the edge cases in the spec. Check empty
    collections, zero values, one-element cases, and boundaries. The implementation
    provides each specified behavior without conflict.
-3. When tests exist, they exercise specified behavior rather than stubbing it.
-4. Check two changes that often leave a spec stale:
+3. Check two changes that often leave a spec stale:
    - A feature flag is released or removed. The spec may still call it provisional.
      Propose unconditional wording.
    - User-visible strings change. The spec may quote or paraphrase them.

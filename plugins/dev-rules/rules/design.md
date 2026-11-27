@@ -1,5 +1,5 @@
 ---
-description: Architecture, layer boundaries, failure handling, name accuracy and scope, symmetry, call-site intent, cohesion, and when and where to share code
+description: Architecture, layer boundaries, failure handling, name accuracy and scope, symmetry, call-site intent, cohesion, when and where to share code, and whether an abstraction earns its place
 perspectives:
   - design
 paths:
@@ -107,6 +107,9 @@ section owns whether a name is accurate.
 - [DS-20] **An extracted helper represents one named concern.** Keep caller-specific
   behavior at the caller, even at the cost of a small repetition. Do not introduce generics or callbacks solely to unify such
   processing.
+- [DS-27] **Every abstraction provides a current benefit.** An interface or wrapper with one
+  use needs a reason to exist; inline a wrapper that only bundles caller-specific
+  steps such as exception handling, logging, and fallback values.
 - [DS-21] **Code shared by sibling files lives in neither of them**, but in its own file or a
   shared file named for the concept.
 - [DS-22] **Shared behavior lives with its owning type.** A helper for one domain object is

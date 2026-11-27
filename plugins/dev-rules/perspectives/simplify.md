@@ -5,8 +5,8 @@ changes that reduce maintenance work. Do not chase micro-optimizations. Apply th
 collected rules.
 
 Stay within one scope: code that can be removed, or replaced by what already exists.
-Whether and where to extract or share code, naming, and responsibility splits belong
-to design.
+Whether and where to extract or share code, whether an abstraction earns its place,
+naming, and responsibility splits belong to design.
 
 ## What NOT to flag
 

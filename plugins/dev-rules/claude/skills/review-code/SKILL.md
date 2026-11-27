@@ -127,8 +127,10 @@ This skill adds two rules:
   was built from): judge the finding on its merits, never only by "the plan says
   otherwise". Sounder finding → treat it as in scope and, with `--fix`, also update
   any plan file in the repository; report the departure for the PR. Sounder plan →
-  keep it and report why the finding is wrong. A user message in this conversation
-  is not a plan: report a conflict with it, do not override it.
+  ignore the finding, and write in the finding's recorded `issue` and in the report
+  the concrete reason the plan's choice is better than the finding's alternative. "The
+  plan decided it" is not a reason. A user message in this conversation is not a plan:
+  report a conflict with it, do not override it.
 
 ### Record the findings
 

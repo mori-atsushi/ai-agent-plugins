@@ -1,5 +1,5 @@
 ---
-description: Removing unused code, needless abstractions, and redundant checks
+description: Reusing existing utilities, removing unused code, and redundant checks
 perspectives:
   - simplify
 paths:
@@ -12,9 +12,5 @@ paths:
   project utility when one already expresses the operation** (`chunked`, `groupBy`,
   `fold`, `mapNotNull`).
 - [SM-2] **Unreachable and unused functions, properties, parameters, imports, and branches
-  are removed.**
-- [SM-3] **Every abstraction provides a current benefit.** An interface or wrapper with one
-  use needs a reason to exist; inline a wrapper that only bundles caller-specific
-  steps such as exception handling, logging, and fallback values. Remove an uncalled
-  capability rather than renaming it.
+  are removed.** Remove an uncalled capability rather than renaming it.
 - [SM-4] **A null check or cast adds information the type system cannot already prove.**

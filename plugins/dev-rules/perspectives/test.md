@@ -17,3 +17,12 @@ code to readability.
 With a diff, compare tests with production changes. With direct files, ranges, or a
 directory's files, assess the selected code and its tests. Read related context only
 when needed. Find the added logic. Check that coverage is proportionate.
+
+## What a finding must show
+
+- **A missing test**: name an input or state that reaches the untested branch through
+  the code's real callers. Do not ask for a test of a state the callers cannot produce,
+  or of a one-line, self-evident guard.
+- **A duplicate or unneeded test**: name the existing test that covers the same branch.
+  Check that the test to remove covers nothing that test leaves out, such as how
+  another level passes the behavior on. If it does, it is not a duplicate.
