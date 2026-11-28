@@ -53,7 +53,11 @@ Spelling and form (abbreviations, filler words, boolean form) are readability's;
 section owns whether a name is accurate.
 
 - [DS-11] **A name says what its unit computes or does without surrounding context.** A
-  shared subexpression's name stays accurate in every branch that uses it.
+  shared subexpression's name stays accurate in every branch that uses it. A class that
+  performs side effects is named for its role as a service (`…Launcher`, `…Repository`,
+  `…Client`, `…Runner`, `…Queue`), not with a name that reads as data or a UI element
+  (`…Card`, `…Dialog`, `…Sheet`): a wrapper that starts the Play review flow is
+  `ReviewFlowLauncher`, not `ReviewCard`. Such a role noun is not GN-2's filler.
 - [DS-26] **A name says what its value means or what its unit does, not where it is
   used**: `hasEditAction`, not `forEditSheet`. A callback named for the event it handles
   (`onClick`), not for the screen that handles it (`onEditSheet`), is not a use site. For

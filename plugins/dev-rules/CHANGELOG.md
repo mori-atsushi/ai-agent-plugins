@@ -10,9 +10,16 @@ this file.
 - New AN-3: an object that outlives the Activity (a ViewModel, a singleton, an
   application-wide module or scope, and the coroutines and `Channel`s inside them) never
   holds or receives the Activity or anything tied to it, not even as an argument. The work
-  that needs an Activity runs on the side that lives as long as it; the longer-lived object
-  exposes that there is work to do and takes back an Activity-free result. The Application
-  `Context` is outside the rule.
+  that needs an Activity runs in code that lives no longer than the Activity; the
+  longer-lived object exposes that there is work to do and takes back a plain value. The
+  Application `Context` is allowed.
+
+### Changed
+
+- DS-11: a class that performs side effects is named for its role as a service
+  (`…Launcher`, `…Repository`, `…Client`, `…Runner`, `…Queue`), not with a name that
+  reads as data or a UI element (`…Card`, `…Dialog`, `…Sheet`). Such a role noun is not
+  GN-2's filler.
 
 ## [2.3.4] - 2026-11-28
 
