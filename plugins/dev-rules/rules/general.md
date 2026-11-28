@@ -12,8 +12,6 @@ paths:
 
 - [GN-1] **An identifier is spelled out, not abbreviated.** `requestTimeout`, not `rt`;
   `repository`, not `repo`. A single letter is fine only in a small local scope.
-- [GN-2] **A type names its concept without filler** such as `Manager`, `Handler`,
-  `Helper`, `Util`, or `Data` when the rest of the name already is the concept.
 - [GN-3] **A concept the standard library or framework already names keeps that name**, not
   a synonym. Examples:
   - Kotlin: `xxxOrNull` for a null-returning variant, `toXxx()` for a conversion and

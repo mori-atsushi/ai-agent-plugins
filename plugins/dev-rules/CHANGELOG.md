@@ -13,13 +13,18 @@ this file.
   that needs an Activity runs in code that lives no longer than the Activity; the
   longer-lived object exposes that there is work to do and takes back a plain value. The
   Application `Context` is allowed.
+- New DS-28: a type that only a broad name such as `…Manager`, `…Helper`, or `…Util` fits
+  is first split by cohesion into types named for what each does.
 
 ### Changed
 
 - DS-11: a class that performs side effects is named for its role as a service
   (`…Launcher`, `…Repository`, `…Client`, `…Runner`, `…Queue`), not with a name that
-  reads as data or a UI element (`…Card`, `…Dialog`, `…Sheet`). Such a role noun is not
-  GN-2's filler.
+  reads as data or a UI element (`…Card`, `…Dialog`, `…Sheet`).
+
+### Removed
+
+- GN-2 (no filler such as `Manager` or `Helper` in a type name). DS-28 replaces it.
 
 ## [2.3.4] - 2026-11-28
 

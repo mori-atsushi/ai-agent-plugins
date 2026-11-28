@@ -49,7 +49,7 @@ paths:
 
 ## Naming
 
-Spelling and form (abbreviations, filler words, boolean form) are readability's; this
+Spelling and form (abbreviations, boolean form) are readability's; this
 section owns whether a name is accurate.
 
 - [DS-11] **A name says what its unit computes or does without surrounding context.** A
@@ -57,7 +57,7 @@ section owns whether a name is accurate.
   performs side effects is named for its role as a service (`…Launcher`, `…Repository`,
   `…Client`, `…Runner`, `…Queue`), not with a name that reads as data or a UI element
   (`…Card`, `…Dialog`, `…Sheet`): a wrapper that starts the Play review flow is
-  `ReviewFlowLauncher`, not `ReviewCard`. Such a role noun is not GN-2's filler.
+  `ReviewFlowLauncher`, not `ReviewCard`.
 - [DS-26] **A name says what its value means or what its unit does, not where it is
   used**: `hasEditAction`, not `forEditSheet`. A callback named for the event it handles
   (`onClick`), not for the screen that handles it (`onEditSheet`), is not a use site. For
@@ -98,6 +98,10 @@ section owns whether a name is accurate.
 
 - [DS-18] **A class has one clear responsibility.** Parsing and persistence are separate
   classes.
+- [DS-28] **A type that only a broad name such as `…Manager`, `…Helper`, or `…Util` fits
+  is split by cohesion first.** Group its members by the data and callers they
+  share, and give each group a type named for what it does. Keep one type only when its
+  members belong together.
 
 ## Sharing and placement
 
