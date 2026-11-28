@@ -3,6 +3,23 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.3.4] - 2026-11-28
+
+### Changed
+
+- TS-3 (tests not to write) splits by reason into TS-3 (code not worth pinning),
+  TS-12 (already pinned by another test), TS-13 (expected values copied from the code,
+  such as a restated `when` table, unless a spec fixes them or something outside the
+  code reads them back), TS-14 (the language, a library, the framework, or a test
+  double), and TS-15 (a test that cannot fail). A test they rule out is deleted even
+  when no other test covers the same code.
+- New TS-16: an assertion pins only behavior a spec, caller, or user relies on, not an
+  incidental result of the current implementation.
+- New TS-17: no test for an input the callers cannot produce because a guard elsewhere
+  rules it out; the guard's own test stays.
+- The test perspective separates a duplicate-test finding from an unneeded-test
+  finding, which cites the rule instead of naming a covering test.
+
 ## [2.3.3] - 2026-11-28
 
 ### Changed

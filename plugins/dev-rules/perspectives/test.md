@@ -23,6 +23,11 @@ when needed. Find the added logic. Check that coverage is proportionate.
 - **A missing test**: name an input or state that reaches the untested branch through
   the code's real callers. Do not ask for a test of a state the callers cannot produce,
   or of a one-line, self-evident guard.
-- **A duplicate or unneeded test**: name the existing test that covers the same branch.
+- **A duplicate test**: name the existing test that covers the same branch.
   Check that the test to remove covers nothing that test leaves out, such as how
   another level passes the behavior on. If it does, it is not a duplicate.
+- **An unneeded test or assertion**: cite the test rule that rules it out; a TS-12
+  finding follows the duplicate bullet above. For a pinned incidental behavior, name
+  the implementation change it would block that keeps every spec, caller, and user
+  expectation intact. For an input callers cannot produce, name the guard that rules
+  it out.
