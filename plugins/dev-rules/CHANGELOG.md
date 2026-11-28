@@ -3,6 +3,17 @@
 All notable changes to `dev-rules` (formerly `review-perspectives`) are documented in
 this file.
 
+## [2.3.5] - 2026-11-28
+
+### Added
+
+- New AN-3: an object that outlives the Activity (a ViewModel, a singleton, an
+  application-wide module or scope, and the coroutines and `Channel`s inside them) never
+  holds or receives the Activity or anything tied to it, not even as an argument. The work
+  that needs an Activity runs on the side that lives as long as it; the longer-lived object
+  exposes that there is work to do and takes back an Activity-free result. The Application
+  `Context` is outside the rule.
+
 ## [2.3.4] - 2026-11-28
 
 ### Changed
